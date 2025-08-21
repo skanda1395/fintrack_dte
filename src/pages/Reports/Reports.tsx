@@ -12,7 +12,6 @@ import {
   TableRow,
   Grid,
   Button,
-  ButtonBase,
   CircularProgress,
   Alert,
   TextField,
@@ -351,81 +350,56 @@ const ReportsPage: React.FC = () => {
         </Typography>
       </Box>
 
-      <Box mb={4} sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Grid container>
-          <Grid>
-            <ButtonBase
-              onClick={() => setActiveTab('monthlySummary')}
-              sx={{
-                p: 2,
-                borderBottom:
-                  activeTab === 'monthlySummary' ? '2px solid' : 'none',
-                borderColor: 'primary.main',
-                borderRadius: '4px 4px 0 0',
-              }}
-            >
-              <Typography
-                variant="button"
-                sx={{
-                  color:
-                    activeTab === 'monthlySummary'
-                      ? 'primary.main'
-                      : 'text.secondary',
-                }}
-              >
-                Monthly Summary
-              </Typography>
-            </ButtonBase>
-          </Grid>
-          <Grid>
-            <ButtonBase
-              onClick={() => setActiveTab('categoryBreakdown')}
-              sx={{
-                p: 2,
-                borderBottom:
-                  activeTab === 'categoryBreakdown' ? '2px solid' : 'none',
-                borderColor: 'primary.main',
-                borderRadius: '4px 4px 0 0',
-              }}
-            >
-              <Typography
-                variant="button"
-                sx={{
-                  color:
-                    activeTab === 'categoryBreakdown'
-                      ? 'primary.main'
-                      : 'text.secondary',
-                }}
-              >
-                Category Breakdown
-              </Typography>
-            </ButtonBase>
-          </Grid>
-          <Grid>
-            <ButtonBase
-              onClick={() => setActiveTab('customReport')}
-              sx={{
-                p: 2,
-                borderBottom:
-                  activeTab === 'customReport' ? '2px solid' : 'none',
-                borderColor: 'primary.main',
-                borderRadius: '4px 4px 0 0',
-              }}
-            >
-              <Typography
-                variant="button"
-                sx={{
-                  color:
-                    activeTab === 'customReport'
-                      ? 'primary.main'
-                      : 'text.secondary',
-                }}
-              >
-                Custom Report
-              </Typography>
-            </ButtonBase>
-          </Grid>
-        </Grid>
+      {/* Replaced Grid container with a Box for responsive tabs */}
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 1,
+        }}
+        mb={4}
+      >
+        <Button
+          onClick={() => setActiveTab('monthlySummary')}
+          sx={{
+            minWidth: 'auto',
+            borderRadius: '4px 4px 0 0',
+            borderBottom: activeTab === 'monthlySummary' ? '2px solid' : 'none',
+            borderColor: 'primary.main',
+            color: activeTab === 'monthlySummary' ? 'primary.main' : 'text.secondary',
+            textTransform: 'none',
+          }}
+        >
+          Monthly Summary
+        </Button>
+        <Button
+          onClick={() => setActiveTab('categoryBreakdown')}
+          sx={{
+            minWidth: 'auto',
+            borderRadius: '4px 4px 0 0',
+            borderBottom: activeTab === 'categoryBreakdown' ? '2px solid' : 'none',
+            borderColor: 'primary.main',
+            color: activeTab === 'categoryBreakdown' ? 'primary.main' : 'text.secondary',
+            textTransform: 'none',
+          }}
+        >
+          Category Breakdown
+        </Button>
+        <Button
+          onClick={() => setActiveTab('customReport')}
+          sx={{
+            minWidth: 'auto',
+            borderRadius: '4px 4px 0 0',
+            borderBottom: activeTab === 'customReport' ? '2px solid' : 'none',
+            borderColor: 'primary.main',
+            color: activeTab === 'customReport' ? 'primary.main' : 'text.secondary',
+            textTransform: 'none',
+          }}
+        >
+          Custom Report
+        </Button>
       </Box>
 
       {activeTab === 'monthlySummary' && (
@@ -597,7 +571,7 @@ const ReportsPage: React.FC = () => {
             sx={{ p: 3, borderRadius: 2, border: '1px solid #e0e0e0', mb: 4 }}
           >
             <Grid container spacing={3} alignItems="flex-end">
-              <Grid size={{ xs: 12, sm: 6 }}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   fullWidth
                   type="date"
@@ -607,7 +581,7 @@ const ReportsPage: React.FC = () => {
                   InputLabelProps={{ shrink: true }}
                 />
               </Grid>
-              <Grid size={{ xs: 12, sm: 6 }}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   fullWidth
                   type="date"

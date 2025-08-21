@@ -117,8 +117,16 @@ const MonthlyBudgetCard: React.FC<MonthlyBudgetCardProps> = ({
   spent,
 }) => {
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-      <Box sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        mb: 2,
+        flexDirection: 'row',
+        gap: { xs: 1, sm: 2 },
+      }}
+    >
+      <Box sx={{ mr: { sm: 2 }, display: 'flex', alignItems: 'center' }}>
         <Paper
           elevation={0}
           sx={{ p: 1, borderRadius: '50%', backgroundColor: '#f0f4f8' }}
@@ -126,7 +134,7 @@ const MonthlyBudgetCard: React.FC<MonthlyBudgetCardProps> = ({
           {icon}
         </Paper>
       </Box>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, textAlign: 'left' }}>
         <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
           {categoryName}
         </Typography>
@@ -135,7 +143,13 @@ const MonthlyBudgetCard: React.FC<MonthlyBudgetCardProps> = ({
         </Typography>
       </Box>
       <Box
-        sx={{ width: '300px', display: 'flex', alignItems: 'center', gap: 1 }}
+        sx={{
+          flexGrow: 1,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1,
+          maxWidth: { xs: '100%', sm: 200, md: 300 },
+        }}
       >
         <Box sx={{ flexGrow: 1 }}>
           <BudgetProgress spent={spent} limit={limit} />
@@ -474,9 +488,9 @@ const BudgetsPage: React.FC = () => {
         <TableContainer
           component={Paper}
           elevation={0}
-          sx={{ borderRadius: 2, border: '1px solid #e0e0e0' }}
+          sx={{ borderRadius: 2, border: '1px solid #e0e0e0', overflowX: 'auto' }}
         >
-          <Table>
+          <Table sx={{ minWidth: 650 }}>
             <TableHead>
               <TableRow>
                 <TableCell sx={{ fontWeight: 'bold' }}>Category</TableCell>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { Box, Toolbar } from '@mui/material';
+import { Box } from '@mui/material';
 
 import Header from '@/components/Header/Header';
 
@@ -14,12 +14,11 @@ const MainLayout: React.FC = () => {
         sx={{
           flexGrow: 1,
           p: 3,
-          pt: { xs: '56px', sm: '64px' },
+          pt: { xs: '76px', sm: '86px' },
           width: '100%',
           boxSizing: 'border-box',
         }}
       >
-        <Toolbar />
         <Outlet />
       </Box>
     </Box>

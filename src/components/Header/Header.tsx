@@ -107,6 +107,7 @@ const Header: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             flexGrow: 1,
+            justifyContent: { xs: 'center', md: 'flex-start' },
           }}
         >
           <Box
@@ -116,7 +117,6 @@ const Header: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              ml: { xs: 1, md: 1.5 },
               mr: 1.5,
               p: 0.5,
             }}

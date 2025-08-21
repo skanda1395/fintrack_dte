@@ -14,10 +14,12 @@ import {
   TableRow,
   TextField,
   Alert,
-  Link,
   Grid,
   Modal,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
+import { Edit as EditIcon } from '@mui/icons-material';
 import { useAddCategory, useUpdateCategory } from '@/hooks/categoriesQueries';
 import { useTransactions } from '@/hooks/transactionsQueries';
 import { Category, Transaction } from '@/interfaces/interfaces';
@@ -215,35 +217,48 @@ const CategoriesPage: React.FC = () => {
           <TableContainer
             component={Paper}
             elevation={0}
-            sx={{ borderRadius: 2, border: '1px solid #e0e0e0' }}
+            sx={{
+              borderRadius: 2,
+              border: '1px solid #e0e0e0',
+              maxHeight: 440,
+              overflow: 'auto',
+            }}
           >
-            <Table>
+            <Table stickyHeader>
               <TableHead>
                 <TableRow>
-                  <TableCell sx={{ fontWeight: 'bold' }}>Category</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', minWidth: '200px' }}>Category</TableCell>
                   <TableCell sx={{ fontWeight: 'bold' }}>
                     Spending (Current Month)
                   </TableCell>
-                  <TableCell sx={{ fontWeight: 'bold' }}>Actions</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', minWidth: '120px' }}>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {categories.length > 0 ? (
                   categories.map((category) => (
                     <TableRow key={category.id} hover>
-                      <TableCell>{category.name}</TableCell>
+                      <Tooltip title={category.name} arrow>
+                        <TableCell sx={{
+                          maxWidth: '200px',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap'
+                        }}>
+                          {category.name}
+                        </TableCell>
+                      </Tooltip>
                       <TableCell>{`$${category.spendingCurrentMonth.toFixed(2)}`}</TableCell>
                       <TableCell>
-                        <Link
-                          component="button"
-                          onClick={() => handleEdit(category)}
-                          sx={{
-                            textDecoration: 'underline',
-                            cursor: 'pointer',
-                          }}
-                        >
-                          Edit
-                        </Link>
+                        <Tooltip title="Edit">
+                          <IconButton
+                            onClick={() => handleEdit(category)}
+                            size="medium"
+                            color="default"
+                          >
+                            <EditIcon fontSize="medium" />
+                          </IconButton>
+                        </Tooltip>
                       </TableCell>
                     </TableRow>
                   ))

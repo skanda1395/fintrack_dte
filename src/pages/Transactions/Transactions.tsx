@@ -261,18 +261,18 @@ const TransactionsPage: React.FC = () => {
       <TableContainer
         component={Paper}
         elevation={0}
-        sx={{ borderRadius: 2, border: '1px solid #e0e0e0' }}
+        sx={{ borderRadius: 2, border: '1px solid #e0e0e0', overflowX: 'auto' }}
       >
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontWeight: 'bold' }}>Date</TableCell>
+              <TableCell sx={{ fontWeight: 'bold', minWidth: '120px' }}>Date</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Category</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Description</TableCell>
+              <TableCell sx={{ fontWeight: 'bold', minWidth: '200px' }}>Description</TableCell>
               <TableCell sx={{ fontWeight: 'bold', textAlign: 'right' }}>
                 Amount
               </TableCell>
-              <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+              <TableCell sx={{ fontWeight: 'bold', textAlign: 'center', minWidth: '120px' }}>
                 Actions
               </TableCell>
             </TableRow>
@@ -285,7 +285,16 @@ const TransactionsPage: React.FC = () => {
                   <TableCell>
                     {findCategoryName(transaction.categoryId)}
                   </TableCell>
-                  <TableCell>{transaction.description}</TableCell>
+                  <Tooltip title={transaction.description} arrow>
+                    <TableCell sx={{
+                      maxWidth: '200px',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap'
+                    }}>
+                      {transaction.description}
+                    </TableCell>
+                  </Tooltip>
                   <TableCell sx={{ textAlign: 'right' }}>
                     <Typography
                       variant="body1"
@@ -305,19 +314,19 @@ const TransactionsPage: React.FC = () => {
                     <Tooltip title="Edit">
                       <IconButton
                         onClick={() => handleOpenEditModal(transaction)}
-                        size="small"
+                        size="medium"
                         color="default"
                       >
-                        <EditIcon fontSize="small" />
+                        <EditIcon fontSize="medium" />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Delete">
                       <IconButton
                         onClick={() => handleOpenDeleteModal(transaction)}
-                        size="small"
+                        size="medium"
                         color="default"
                       >
-                        <DeleteIcon fontSize="small" />
+                        <DeleteIcon fontSize="medium" />
                       </IconButton>
                     </Tooltip>
                   </TableCell>
