@@ -1,0 +1,151 @@
+{
+  "transactions": [
+    {
+      "date": "2025-08-08",
+      "description": "HashedIn Salary",
+      "amount": 2300,
+      "type": "income",
+      "categoryId": "796e",
+      "id": "1482",
+      "userId": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6"
+    },
+    {
+      "date": "2025-08-14",
+      "description": "Coolie",
+      "amount": 200,
+      "type": "expense",
+      "categoryId": "ee05",
+      "id": "98d3",
+      "userId": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6"
+    },
+    {
+      "date": "2025-07-02",
+      "description": "F1",
+      "amount": 300,
+      "type": "expense",
+      "categoryId": "ee05",
+      "id": "9056",
+      "userId": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6"
+    },
+    {
+      "id": "5ee7",
+      "date": "2025-08-21",
+      "description": "Coolie",
+      "amount": 100,
+      "type": "expense",
+      "categoryId": "c394",
+      "userId": "e883de13-37c7-4556-a1ff-bbf4dbd32c55"
+    },
+    {
+      "date": "2025-08-21",
+      "description": "Pizza",
+      "amount": 100,
+      "type": "expense",
+      "categoryId": "ba81",
+      "id": "96b6",
+      "userId": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6"
+    }
+  ],
+  "budgets": [
+    {
+      "id": "fbff",
+      "categoryId": "5af9",
+      "limit": 1000,
+      "spent": 0,
+      "userId": "e883de13-37c7-4556-a1ff-bbf4dbd32c55"
+    },
+    {
+      "id": "b19f",
+      "categoryId": "c394",
+      "limit": 500,
+      "spent": 0,
+      "userId": "e883de13-37c7-4556-a1ff-bbf4dbd32c55"
+    },
+    {
+      "id": "5bc9",
+      "categoryId": "50ec",
+      "limit": 100,
+      "spent": 0,
+      "userId": "e883de13-37c7-4556-a1ff-bbf4dbd32c55"
+    },
+    {
+      "id": "7336",
+      "categoryId": "ba81",
+      "limit": 500,
+      "spent": 0,
+      "userId": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6"
+    },
+    {
+      "id": "4b63",
+      "categoryId": "ee05",
+      "limit": 100,
+      "spent": 0,
+      "userId": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6"
+    }
+  ],
+  "users": [
+    {
+      "id": "e883de13-37c7-4556-a1ff-bbf4dbd32c55",
+      "email": "john@abc.com",
+      "password": "123456",
+      "name": "John"
+    },
+    {
+      "id": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6",
+      "email": "skanda1395@gmail.com",
+      "password": "123456",
+      "name": "Sunil"
+    },
+    {
+      "id": "a1f082e9-f98e-4e5b-bad9-8b2125523ce2",
+      "email": "test@abc.com",
+      "password": "123456",
+      "name": "Test"
+    }
+  ],
+  "categories": [
+    {
+      "id": "5af9",
+      "name": "Food",
+      "spendingLastMonth": 0,
+      "userId": "e883de13-37c7-4556-a1ff-bbf4dbd32c55"
+    },
+    {
+      "id": "c394",
+      "name": "Entertainment",
+      "spendingLastMonth": 0,
+      "userId": "e883de13-37c7-4556-a1ff-bbf4dbd32c55"
+    },
+    {
+      "id": "ba81",
+      "name": "Food",
+      "spendingLastMonth": 0,
+      "userId": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6"
+    },
+    {
+      "id": "796e",
+      "name": "Salary",
+      "spendingLastMonth": 0,
+      "userId": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6"
+    },
+    {
+      "id": "ee05",
+      "name": "Movies",
+      "spendingLastMonth": 0,
+      "userId": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6"
+    },
+    {
+      "id": "50ec",
+      "name": "Misc",
+      "spendingLastMonth": 0,
+      "userId": "e883de13-37c7-4556-a1ff-bbf4dbd32c55"
+    },
+    {
+      "id": "05ec",
+      "name": "Miscellaneous",
+      "spendingLastMonth": 0,
+      "userId": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6",
+      "spendingCurrentMonth": 0
+    }
+  ]
+}
