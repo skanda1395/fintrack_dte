@@ -10,9 +10,11 @@ import {
   Menu,
   MenuItem,
   Divider,
+  Drawer,
+  List,
 } from '@mui/material';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import MenuIcon from '@mui/icons-material/Menu';
 
 import ThemeToggleButton from '@/components/ThemeToggle/ThemeToggleButton';
 import { useAuth } from '@/contexts/AuthContext';
@@ -32,20 +34,26 @@ const topNavItems: TopNavItem[] = [
 
 const Header: React.FC = () => {
   const { user, logout } = useAuth();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const [profileMenuAnchorEl, setProfileMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const isProfileMenuOpen = Boolean(profileMenuAnchorEl);
+
+  const handleProfileMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setProfileMenuAnchorEl(event.currentTarget);
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
+  const handleProfileMenuClose = () => {
+    setProfileMenuAnchorEl(null);
+  };
+
+  const handleMobileMenuToggle = (open: boolean) => () => {
+    setIsMobileMenuOpen(open);
   };
 
   const handleLogout = () => {
     logout();
-    handleMenuClose();
+    handleProfileMenuClose();
   };
 
   return (
@@ -60,6 +68,40 @@ const Header: React.FC = () => {
       }}
     >
       <Toolbar>
+        <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Drawer
+            anchor="left"
+            open={isMobileMenuOpen}
+            onClose={handleMobileMenuToggle(false)}
+          >
+            <Box
+              sx={{ width: 250 }}
+              role="presentation"
+              onClick={handleMobileMenuToggle(false)}
+              onKeyDown={handleMobileMenuToggle(false)}
+            >
+              <List>
+                {topNavItems.map((item) => (
+                  <MenuItem
+                    key={item.text}
+                    component={RouterLink}
+                    to={item.path}
+                  >
+                    {item.text}
+                  </MenuItem>
+                ))}
+              </List>
+            </Box>
+          </Drawer>
+        </Box>
+
         <Box
           sx={{
             display: 'flex',
@@ -74,6 +116,7 @@ const Header: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              ml: { xs: 1, md: 1.5 },
               mr: 1.5,
               p: 0.5,
             }}
@@ -84,7 +127,6 @@ const Header: React.FC = () => {
               style={{ width: '100%', height: '100%' }}
             />
           </Box>
-
           <Typography
             variant="h6"
             noWrap
@@ -120,16 +162,12 @@ const Header: React.FC = () => {
         </Box>
 
         <ThemeToggleButton />
-        <IconButton color="inherit" aria-label="notifications">
-          <NotificationsIcon />
-        </IconButton>
-
         {user ? (
           <IconButton
             color="inherit"
             aria-label="profile menu"
-            onClick={handleMenuClick}
-            aria-controls={open ? 'profile-menu' : undefined}
+            onClick={handleProfileMenuClick}
+            aria-controls={isProfileMenuOpen ? 'profile-menu' : undefined}
             aria-haspopup="true"
           >
             <AccountCircleIcon />
@@ -147,15 +185,15 @@ const Header: React.FC = () => {
 
         <Menu
           id="profile-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleMenuClose}
+          anchorEl={profileMenuAnchorEl}
+          open={isProfileMenuOpen}
+          onClose={handleProfileMenuClose}
           MenuListProps={{
             'aria-labelledby': 'profile-menu-button',
           }}
         >
           <MenuItem
-            onClick={handleMenuClose}
+            onClick={handleProfileMenuClose}
             component={RouterLink}
             to="/profile"
           >
