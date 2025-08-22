@@ -238,7 +238,11 @@ const DashboardPage: React.FC = () => {
               ${totalExpenses.toFixed(2)}
             </Typography>
           </Box>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer 
+            width="100%" 
+            height={300}
+            aria-label="Bar chart showing spending by category for the current month."
+          >
             <BarChart data={spendingByCategoryChartData}>
               <XAxis dataKey="name" tick={{ fontSize: 12 }} />
               <YAxis />
@@ -265,12 +269,15 @@ const DashboardPage: React.FC = () => {
           sx={{ borderRadius: 2, border: '1px solid #e0e0e0' }}
         >
           <Table>
+            <caption style={{ position: 'absolute', clip: 'rect(0 0 0 0)' }}>
+              A list of the 5 most recent transactions.
+            </caption>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ fontWeight: 'bold' }}>Date</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }}>Category</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }}>Description</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }}>Amount</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} scope="col">Date</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} scope="col">Category</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} scope="col">Description</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} scope="col">Amount</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

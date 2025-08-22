@@ -198,6 +198,7 @@ const TransactionsPage: React.FC = () => {
           variant="outlined"
           value={transactionSearchTerm}
           onChange={(e) => setTransactionSearchTerm(e.target.value)}
+          aria-label="Search transactions by description or category name"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -210,6 +211,7 @@ const TransactionsPage: React.FC = () => {
           <Button
             variant="outlined"
             onClick={() => setFilterType('all')}
+            aria-pressed={filterType === 'all'}
             sx={{
               borderRadius: '20px',
               borderColor: 'grey.300',
@@ -226,6 +228,7 @@ const TransactionsPage: React.FC = () => {
           <Button
             variant="outlined"
             onClick={() => setFilterType('income')}
+            aria-pressed={filterType === 'income'}
             sx={{
               borderRadius: '20px',
               borderColor: 'grey.300',
@@ -242,6 +245,7 @@ const TransactionsPage: React.FC = () => {
           <Button
             variant="outlined"
             onClick={() => setFilterType('expense')}
+            aria-pressed={filterType === 'expense'}
             sx={{
               borderRadius: '20px',
               borderColor: 'grey.300',
@@ -264,17 +268,16 @@ const TransactionsPage: React.FC = () => {
         sx={{ borderRadius: 2, border: '1px solid #e0e0e0', overflowX: 'auto' }}
       >
         <Table>
+          <caption style={{ position: 'absolute', clip: 'rect(0 0 0 0)' }}>
+            A table listing all of your financial transactions.
+          </caption>
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontWeight: 'bold', minWidth: '120px' }}>Date</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Category</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', minWidth: '200px' }}>Description</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', textAlign: 'right' }}>
-                Amount
-              </TableCell>
-              <TableCell sx={{ fontWeight: 'bold', textAlign: 'center', minWidth: '120px' }}>
-                Actions
-              </TableCell>
+              <TableCell sx={{ fontWeight: 'bold', minWidth: '120px' }} scope="col">Date</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }} scope="col">Category</TableCell>
+              <TableCell sx={{ fontWeight: 'bold', minWidth: '200px' }} scope="col">Description</TableCell>
+              <TableCell sx={{ fontWeight: 'bold', textAlign: 'right' }} scope="col">Amount</TableCell>
+              <TableCell sx={{ fontWeight: 'bold', textAlign: 'center', minWidth: '120px' }} scope="col">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -306,6 +309,9 @@ const TransactionsPage: React.FC = () => {
                             : 'error.main',
                       }}
                     >
+                      <span className="visually-hidden">
+                        {transaction.type === 'income' ? 'Income' : 'Expense'}:
+                      </span>
                       {transaction.type === 'income' ? '+' : '-'}$
                       {transaction.amount.toFixed(2)}
                     </Typography>
@@ -316,6 +322,7 @@ const TransactionsPage: React.FC = () => {
                         onClick={() => handleOpenEditModal(transaction)}
                         size="medium"
                         color="default"
+                        aria-label={`Edit transaction ${transaction.description}`}
                       >
                         <EditIcon fontSize="medium" />
                       </IconButton>
@@ -325,6 +332,7 @@ const TransactionsPage: React.FC = () => {
                         onClick={() => handleOpenDeleteModal(transaction)}
                         size="medium"
                         color="default"
+                        aria-label={`Delete transaction ${transaction.description}`}
                       >
                         <DeleteIcon fontSize="medium" />
                       </IconButton>

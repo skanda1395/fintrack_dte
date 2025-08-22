@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useTheme } from '@mui/material/styles';
 
 import ThemeToggleButton from '@/components/ThemeToggle/ThemeToggleButton';
 import { useAuth } from '@/contexts/AuthContext';
@@ -33,6 +34,8 @@ const topNavItems: TopNavItem[] = [
 ];
 
 const Header: React.FC = () => {
+  const theme = useTheme();
+  const location = useLocation();
   const { user, logout } = useAuth();
   const [profileMenuAnchorEl, setProfileMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -61,9 +64,9 @@ const Header: React.FC = () => {
       position="fixed"
       sx={{
         zIndex: (theme) => theme.zIndex.drawer + 1,
-        backgroundColor: 'white',
-        color: '#0D0F1C',
-        borderBottom: '1px solid #E5E8EB',
+        backgroundColor: theme.palette.background.paper,
+        color: theme.palette.text.primary,
+        borderBottom: `1px solid ${theme.palette.divider}`,
         boxShadow: 'none',
       }}
     >
@@ -71,12 +74,15 @@ const Header: React.FC = () => {
         <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
           <IconButton
             color="inherit"
-            aria-label="open drawer"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="open mobile navigation menu"
+            onClick={handleMobileMenuToggle(true)}
+            aria-controls="mobile-menu-drawer"
+            aria-expanded={isMobileMenuOpen}
           >
             <MenuIcon />
           </IconButton>
           <Drawer
+            id="mobile-menu-drawer"
             anchor="left"
             open={isMobileMenuOpen}
             onClose={handleMobileMenuToggle(false)}
@@ -87,12 +93,13 @@ const Header: React.FC = () => {
               onClick={handleMobileMenuToggle(false)}
               onKeyDown={handleMobileMenuToggle(false)}
             >
-              <List>
+              <List component="nav" aria-label="mobile navigation">
                 {topNavItems.map((item) => (
                   <MenuItem
                     key={item.text}
                     component={RouterLink}
                     to={item.path}
+                    selected={location.pathname === item.path}
                   >
                     {item.text}
                   </MenuItem>
@@ -110,50 +117,57 @@ const Header: React.FC = () => {
             justifyContent: { xs: 'center', md: 'flex-start' },
           }}
         >
-          <Box
-            sx={{
-              width: 40,
-              height: 40,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              mr: 1.5,
-              p: 0.5,
-            }}
-          >
-            <img
-              src="/fintrack_logo.svg"
-              alt="App Logo"
-              style={{ width: '100%', height: '100%' }}
-            />
-          </Box>
           <Typography
             variant="h6"
             noWrap
             component={RouterLink}
             to="/"
+            aria-label="FinTrack home page"
             sx={{
               textDecoration: 'none',
               color: 'inherit',
               cursor: 'pointer',
               fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
+            <Box
+              component="span"
+              sx={{
+                width: 40,
+                height: 40,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                mr: 1.5,
+                p: 0.5,
+              }}
+            >
+              <img
+                src="/fintrack_logo.svg"
+                alt=""
+                style={{ width: '100%', height: '100%' }}
+              />
+            </Box>
             FinTrack
           </Typography>
         </Box>
 
-        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+        <Box sx={{ display: { xs: 'none', md: 'flex' } }} component="nav" aria-label="main navigation">
           {topNavItems.map((item) => (
             <Button
               key={item.text}
               component={RouterLink}
               to={item.path}
               sx={{
-                color: 'inherit',
+                color: location.pathname === item.path ? theme.palette.primary.main : 'inherit',
                 mx: 1,
                 textTransform: 'capitalize',
-                fontWeight: 'medium',
+                fontWeight: location.pathname === item.path ? 'bold' : 'medium',
+                borderBottom: location.pathname === item.path ? `2px solid ${theme.palette.primary.main}` : 'none',
+                borderRadius: 0,
+                paddingBottom: '6px',
               }}
             >
               {item.text}
@@ -165,10 +179,12 @@ const Header: React.FC = () => {
         {user ? (
           <IconButton
             color="inherit"
-            aria-label="profile menu"
+            id="profile-menu-button"
+            aria-label="open user profile menu"
             onClick={handleProfileMenuClick}
             aria-controls={isProfileMenuOpen ? 'profile-menu' : undefined}
             aria-haspopup="true"
+            aria-expanded={isProfileMenuOpen}
           >
             <AccountCircleIcon />
           </IconButton>
@@ -177,6 +193,7 @@ const Header: React.FC = () => {
             color="inherit"
             component={RouterLink}
             to="/login"
+            aria-label="Login to your account"
             sx={{ textTransform: 'capitalize', fontWeight: 'medium' }}
           >
             Login

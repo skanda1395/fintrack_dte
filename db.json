@@ -3,7 +3,7 @@
     {
       "date": "2025-08-08",
       "description": "HashedIn Salary",
-      "amount": 2300,
+      "amount": 2000,
       "type": "income",
       "categoryId": "796e",
       "id": "1482",
@@ -11,17 +11,17 @@
     },
     {
       "date": "2025-08-14",
-      "description": "Coolie",
-      "amount": 200,
+      "description": "Pizza",
+      "amount": 100,
       "type": "expense",
-      "categoryId": "ee05",
+      "categoryId": "ba81",
       "id": "98d3",
       "userId": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6"
     },
     {
       "date": "2025-07-02",
       "description": "F1",
-      "amount": 300,
+      "amount": 50,
       "type": "expense",
       "categoryId": "ee05",
       "id": "9056",
@@ -38,10 +38,10 @@
     },
     {
       "date": "2025-08-21",
-      "description": "Pizza",
-      "amount": 100,
+      "description": "Taxi",
+      "amount": 200,
       "type": "expense",
-      "categoryId": "ba81",
+      "categoryId": "05ec",
       "id": "96b6",
       "userId": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6"
     }
@@ -78,6 +78,13 @@
     {
       "id": "4b63",
       "categoryId": "ee05",
+      "limit": 100,
+      "spent": 0,
+      "userId": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6"
+    },
+    {
+      "id": "4b7e",
+      "categoryId": "05ec",
       "limit": 100,
       "spent": 0,
       "userId": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6"
@@ -142,10 +149,16 @@
     },
     {
       "id": "05ec",
-      "name": "Miscellaneous",
+      "name": "Misc",
       "spendingLastMonth": 0,
       "userId": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6",
-      "spendingCurrentMonth": 0
+      "spendingCurrentMonth": 200
+    },
+    {
+      "id": "8fdb",
+      "name": "1233",
+      "spendingLastMonth": 0,
+      "userId": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6"
     }
   ]
 }

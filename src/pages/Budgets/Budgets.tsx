@@ -68,9 +68,10 @@ const getCategoryIcon = (categoryName: string) => {
 interface BudgetProgressProps {
   spent: number;
   limit: number;
+  categoryName: string;
 }
 
-const BudgetProgress: React.FC<BudgetProgressProps> = ({ spent, limit }) => {
+const BudgetProgress: React.FC<BudgetProgressProps> = ({ spent, limit, categoryName }) => {
   const progress = (spent / limit) * 100;
   const isOverBudget = spent > limit;
 
@@ -88,6 +89,10 @@ const BudgetProgress: React.FC<BudgetProgressProps> = ({ spent, limit }) => {
                 backgroundColor: isOverBudget ? 'error.main' : 'primary.main',
               },
             }}
+            aria-label={`Progress for ${categoryName} budget: ${Math.round(progress)}% spent`}
+            aria-valuenow={Math.round(progress)}
+            aria-valuemin={0}
+            aria-valuemax={100}
           />
         </Box>
         <Box sx={{ minWidth: 35 }}>
@@ -131,6 +136,7 @@ const MonthlyBudgetCard: React.FC<MonthlyBudgetCardProps> = ({
           elevation={0}
           sx={{ p: 1, borderRadius: '50%', backgroundColor: '#f0f4f8' }}
         >
+          <span className="visually-hidden">Icon for {categoryName} category</span>
           {icon}
         </Paper>
       </Box>
@@ -152,7 +158,7 @@ const MonthlyBudgetCard: React.FC<MonthlyBudgetCardProps> = ({
         }}
       >
         <Box sx={{ flexGrow: 1 }}>
-          <BudgetProgress spent={spent} limit={limit} />
+          <BudgetProgress spent={spent} limit={limit} categoryName={categoryName} />
         </Box>
       </Box>
     </Box>
@@ -198,6 +204,7 @@ const BudgetsPage: React.FC = () => {
 
   const handleCloseAdd = () => {
     setOpenAddModal(false);
+    setFormBudget({ categoryId: '', limit: 0 });
   };
 
   const handleAddSubmit = (e: React.FormEvent) => {
@@ -218,7 +225,6 @@ const BudgetsPage: React.FC = () => {
       {
         onSuccess: () => {
           handleCloseAdd();
-          setFormBudget({ categoryId: '', limit: 0 });
         },
       }
     );
@@ -380,6 +386,8 @@ const BudgetsPage: React.FC = () => {
         slotProps={{
           backdrop: { timeout: 500 },
         }}
+        aria-labelledby="new-budget-title"
+        aria-describedby="new-budget-description"
       >
         <Fade in={openAddModal}>
           <Box
@@ -404,16 +412,20 @@ const BudgetsPage: React.FC = () => {
               mb={2}
             >
               <Typography
+                id="new-budget-title"
                 variant="h6"
                 component="h2"
                 sx={{ fontWeight: 'bold' }}
               >
                 Set New Budget
               </Typography>
-              <IconButton onClick={handleCloseAdd}>
+              <IconButton onClick={handleCloseAdd} aria-label="Close add budget modal">
                 <Close />
               </IconButton>
             </Box>
+            <Typography id="new-budget-description" sx={{ mt: 2, display: 'none' }}>
+              Fill out the form below to create a new budget.
+            </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               <FormControl fullWidth>
                 <InputLabel id="category-select-label">Category</InputLabel>
@@ -424,6 +436,7 @@ const BudgetsPage: React.FC = () => {
                   value={formBudget.categoryId}
                   label="Category"
                   onChange={handleChange}
+                  required
                 >
                   {availableCategories.length > 0 ? (
                     availableCategories.map((category) => (
@@ -446,6 +459,7 @@ const BudgetsPage: React.FC = () => {
                 value={formBudget.limit}
                 onChange={handleChange}
                 inputProps={{ min: 0 }}
+                required
               />
               <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
                 <Button
@@ -491,13 +505,16 @@ const BudgetsPage: React.FC = () => {
           sx={{ borderRadius: 2, border: '1px solid #e0e0e0', overflowX: 'auto' }}
         >
           <Table sx={{ minWidth: 650 }}>
+            <caption style={{ position: 'absolute', clip: 'rect(0 0 0 0)' }}>
+              A table showing historical budget data for previous months.
+            </caption>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ fontWeight: 'bold' }}>Category</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }}>Budget Amount</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }}>Spent</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }}>Remaining</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }}>Period</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} scope="col">Category</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} scope="col">Budget Amount</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} scope="col">Spent</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} scope="col">Remaining</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} scope="col">Period</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

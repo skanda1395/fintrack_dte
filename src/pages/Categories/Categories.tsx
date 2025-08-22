@@ -19,7 +19,7 @@ import {
   IconButton,
   Tooltip,
 } from '@mui/material';
-import { Edit as EditIcon } from '@mui/icons-material';
+import { Edit as EditIcon, Close as CloseIcon } from '@mui/icons-material';
 import { useAddCategory, useUpdateCategory } from '@/hooks/categoriesQueries';
 import { useTransactions } from '@/hooks/transactionsQueries';
 import { Category, Transaction } from '@/interfaces/interfaces';
@@ -225,13 +225,20 @@ const CategoriesPage: React.FC = () => {
             }}
           >
             <Table stickyHeader>
+              <caption style={{ position: 'absolute', clip: 'rect(0 0 0 0)' }}>
+                A table listing all current categories and spending for the current month.
+              </caption>
               <TableHead>
                 <TableRow>
-                  <TableCell sx={{ fontWeight: 'bold', minWidth: '200px' }}>Category</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold' }}>
+                  <TableCell sx={{ fontWeight: 'bold', minWidth: '200px' }} scope="col">
+                    Category
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 'bold' }} scope="col">
                     Spending (Current Month)
                   </TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', minWidth: '120px' }}>Actions</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', minWidth: '120px' }} scope="col">
+                    Actions
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -255,6 +262,7 @@ const CategoriesPage: React.FC = () => {
                             onClick={() => handleEdit(category)}
                             size="medium"
                             color="default"
+                            aria-label={`Edit ${category.name} category`}
                           >
                             <EditIcon fontSize="medium" />
                           </IconButton>
@@ -292,11 +300,16 @@ const CategoriesPage: React.FC = () => {
               <TextField
                 fullWidth
                 label="Category Name"
+                id="new-category-name"
                 placeholder="e.g., DiningOut"
                 value={newCategoryName}
                 onChange={(e) => setNewCategoryName(e.target.value)}
                 disabled={addMutation.isPending}
+                aria-describedby="add-category-help"
               />
+              <Typography id="add-category-help" variant="caption" sx={{ display: 'none' }}>
+                Enter a name for your new expense category.
+              </Typography>
             </Grid>
             <Grid size={{ xs: 12, sm: 4, md: 2 }}>
               <Button
@@ -324,10 +337,28 @@ const CategoriesPage: React.FC = () => {
         </Box>
       </Box>
 
-      <Modal open={openEditModal} onClose={() => setOpenEditModal(false)}>
+      <Modal 
+        open={openEditModal} 
+        onClose={() => setOpenEditModal(false)}
+        aria-labelledby="edit-category-title"
+        aria-describedby="edit-category-description"
+      >
         <Box sx={modalStyle} component="form" onSubmit={handleSaveEdit}>
-          <Typography variant="h5" mb={2}>
-            Edit Category
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            mb={2}
+          >
+            <Typography id="edit-category-title" variant="h5">
+              Edit Category
+            </Typography>
+            <IconButton onClick={() => setOpenEditModal(false)} aria-label="Close edit modal">
+              <CloseIcon />
+            </IconButton>
+          </Box>
+          <Typography id="edit-category-description" sx={{ display: 'none' }}>
+            Change the name of the selected category.
           </Typography>
           {updateMutation.isError && (
             <Alert severity="error" sx={{ mb: 2 }}>

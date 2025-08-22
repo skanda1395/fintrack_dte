@@ -52,6 +52,8 @@ const ProfilePage: React.FC = () => {
             mb: 2,
             fontSize: '3rem',
           }}
+          role="img"
+          aria-label={user.name ? `User avatar for ${user.name}` : "User profile avatar"}
         >
           {user.name ? (
             user.name.charAt(0).toUpperCase()
@@ -71,10 +73,11 @@ const ProfilePage: React.FC = () => {
           Welcome to your FinTrack profile.
         </Typography>
 
-        <Grid container spacing={3} alignItems="center" sx={{ mb: 4 }}>
+        <Grid container spacing={3} alignItems="center" sx={{ mb: 4 }} role="list">
           <Grid
             size={{ xs: 12, sm: 4 }}
-            textAlign={{ xs: 'center', sm: 'right' }}
+            sx={{ textAlign: { xs: 'center', sm: 'right' } }}
+            role="listitem"
           >
             <Typography
               variant="subtitle1"
@@ -86,7 +89,7 @@ const ProfilePage: React.FC = () => {
           </Grid>
           <Grid
             size={{ xs: 12, sm: 8 }}
-            textAlign={{ xs: 'center', sm: 'left' }}
+            sx={{ textAlign: { xs: 'center', sm: 'left' } }}
           >
             <Typography
               variant="body1"
@@ -98,7 +101,8 @@ const ProfilePage: React.FC = () => {
 
           <Grid
             size={{ xs: 12, sm: 4 }}
-            textAlign={{ xs: 'center', sm: 'right' }}
+            sx={{ textAlign: { xs: 'center', sm: 'right' } }}
+            role="listitem"
           >
             <Typography
               variant="subtitle1"
@@ -110,7 +114,7 @@ const ProfilePage: React.FC = () => {
           </Grid>
           <Grid
             size={{ xs: 12, sm: 8 }}
-            textAlign={{ xs: 'center', sm: 'left' }}
+            sx={{ textAlign: { xs: 'center', sm: 'left' } }}
           >
             <Typography
               variant="body1"
@@ -125,14 +129,15 @@ const ProfilePage: React.FC = () => {
           variant="contained"
           color="primary"
           sx={{
-            mt: 2,
+            mt: 1,
             px: 4,
             py: 1.2,
             borderRadius: '8px',
             textTransform: 'capitalize',
             fontWeight: 'medium',
           }}
-          onClick={() => alert('Edit Profile (to be implemented')}
+          onClick={() => alert('Edit Profile (to be implemented)')}
+          aria-label="Edit your profile"
         >
           Edit Profile
         </Button>

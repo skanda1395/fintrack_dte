@@ -55,13 +55,11 @@ const TransactionFormModal: React.FC<TransactionFormModalProps> = ({
     initialTransaction?.categoryId || ''
   );
 
-  // Corrected destructuring to use 'isPending'
   const { mutate: addTransaction, isPending: isAdding } = useAddTransaction();
   const { mutate: updateTransaction, isPending: isUpdating } =
     useUpdateTransaction();
 
   useEffect(() => {
-    // Reset form state when the modal is opened for a new transaction
     if (!initialTransaction) {
       setDate(new Date().toISOString().split('T')[0]);
       setDescription('');
@@ -69,7 +67,6 @@ const TransactionFormModal: React.FC<TransactionFormModalProps> = ({
       setType('expense');
       setCategoryId('');
     } else {
-      // Set form state for an existing transaction
       setDate(initialTransaction.date);
       setDescription(initialTransaction.description);
       setAmount(initialTransaction.amount);
@@ -129,9 +126,11 @@ const TransactionFormModal: React.FC<TransactionFormModalProps> = ({
     }
   };
 
+  const dialogTitleId = initialTransaction ? 'edit-transaction-title' : 'add-transaction-title';
+
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm" aria-labelledby={dialogTitleId}>
+      <DialogTitle id={dialogTitleId}>
         <Box
           sx={{
             display: 'flex',
@@ -140,7 +139,7 @@ const TransactionFormModal: React.FC<TransactionFormModalProps> = ({
           }}
         >
           {initialTransaction ? 'Edit Transaction' : 'Add New Transaction'}
-          <IconButton onClick={onClose} size="small">
+          <IconButton onClick={onClose} size="small" aria-label="Close transaction form">
             <Close />
           </IconButton>
         </Box>
@@ -220,11 +219,14 @@ const TransactionFormModal: React.FC<TransactionFormModalProps> = ({
         </Box>
       </DialogContent>
       <DialogActions sx={{ p: 2 }}>
-        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={onClose} aria-label="Cancel and close form">
+          Cancel
+        </Button>
         <Button
           onClick={handleSave}
           variant="contained"
           disabled={isSaveButtonDisabled}
+          aria-label="Save transaction"
         >
           Save
         </Button>

@@ -300,7 +300,7 @@ const ReportsPage: React.FC = () => {
   const renderInsightCard = (title: string, value: string) => (
     <Paper
       elevation={0}
-      sx={{ p: 2, borderRadius: 2, bgcolor: '#E5E8F5', height: '100%' }}
+      sx={{ p: 2, borderRadius: 2, bgcolor: '#fff', height: '100%' }}
     >
       <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
         {title}
@@ -350,7 +350,6 @@ const ReportsPage: React.FC = () => {
         </Typography>
       </Box>
 
-      {/* Replaced Grid container with a Box for responsive tabs */}
       <Box
         sx={{
           borderBottom: 1,
@@ -420,29 +419,34 @@ const ReportsPage: React.FC = () => {
                 sx={{ p: 3, borderRadius: 2, border: '1px solid #e0e0e0' }}
               >
                 <Box mb={2}>
-                  <Typography variant="body1" color="text.secondary">
+                  <Typography id="monthly-spending-title" variant="body1" color="text.secondary">
                     Total Spending Over Time
                   </Typography>
                   <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                     ${totalExpenses.toFixed(2)}
                   </Typography>
                 </Box>
-                <ResponsiveContainer width="100%" height={200}>
-                  <LineChart data={monthlySpendingData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip
-                      formatter={(value: number) => `$${value.toFixed(2)}`}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="total"
-                      stroke="#8884d8"
-                      dot={false}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
+                <p className="visually-hidden" id="monthly-spending-description">
+                  This line chart shows total expenses by month. The total spending over all periods is ${totalExpenses.toFixed(2)}. The chart shows a trend of spending over time, with each data point representing a month.
+                </p>
+                <div role="img" aria-labelledby="monthly-spending-title" aria-describedby="monthly-spending-description">
+                  <ResponsiveContainer width="100%" height={200}>
+                    <LineChart data={monthlySpendingData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <Tooltip
+                        formatter={(value: number) => `$${value.toFixed(2)}`}
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="total"
+                        stroke="#8884d8"
+                        dot={false}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
               </Paper>
             </Grid>
 
@@ -452,22 +456,27 @@ const ReportsPage: React.FC = () => {
                 sx={{ p: 3, borderRadius: 2, border: '1px solid #e0e0e0' }}
               >
                 <Box mb={2}>
-                  <Typography variant="body1" color="text.secondary">
+                  <Typography id="spending-by-category-title" variant="body1" color="text.secondary">
                     Spending by Category
                   </Typography>
                   <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                     ${totalExpenses.toFixed(2)}
                   </Typography>
                 </Box>
-                <ResponsiveContainer width="100%" height={200}>
-                  <BarChart data={spendingByCategoryData}>
-                    <XAxis dataKey="name" />
-                    <Tooltip
-                      formatter={(value: number) => `$${value.toFixed(2)}`}
-                    />
-                    <Bar dataKey="value" fill="#8884d8" />
-                  </BarChart>
-                </ResponsiveContainer>
+                <p className="visually-hidden" id="spending-by-category-description">
+                  This bar chart shows total spending broken down by category. The chart is a visual representation of the data found in the &apos;Spending Breakdown&apos; table below.
+                </p>
+                <div role="img" aria-labelledby="spending-by-category-title" aria-describedby="spending-by-category-description">
+                  <ResponsiveContainer width="100%" height={200}>
+                    <BarChart data={spendingByCategoryData}>
+                      <XAxis dataKey="name" />
+                      <Tooltip
+                        formatter={(value: number) => `$${value.toFixed(2)}`}
+                      />
+                      <Bar dataKey="value" fill="#8884d8" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
               </Paper>
             </Grid>
           </Grid>
@@ -522,11 +531,14 @@ const ReportsPage: React.FC = () => {
               sx={{ borderRadius: 2, border: '1px solid #e0e0e0' }}
             >
               <Table>
+                <caption className="visually-hidden">
+                  A table showing the breakdown of all spending by category, including the total amount and percentage of all time expenses.
+                </caption>
                 <TableHead>
                   <TableRow>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Category</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Amount</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>
+                    <TableCell sx={{ fontWeight: 'bold' }} scope="col">Category</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold' }} scope="col">Amount</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold' }} scope="col">
                       Percentage
                     </TableCell>
                   </TableRow>
@@ -576,6 +588,7 @@ const ReportsPage: React.FC = () => {
                   fullWidth
                   type="date"
                   label="Start Date"
+                  id="category-breakdown-start-date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
                   InputLabelProps={{ shrink: true }}
@@ -586,6 +599,7 @@ const ReportsPage: React.FC = () => {
                   fullWidth
                   type="date"
                   label="End Date"
+                  id="category-breakdown-end-date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
                   InputLabelProps={{ shrink: true }}
@@ -605,42 +619,48 @@ const ReportsPage: React.FC = () => {
                 }}
               >
                 <Box mb={2}>
-                  <Typography variant="body1" color="text.secondary">
+                  <Typography id="pie-chart-title" variant="body1" color="text.secondary">
                     Spending by Category
                   </Typography>
                   <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                     ${filteredTotalExpenses.toFixed(2)}
                   </Typography>
                 </Box>
+                <p className="visually-hidden" id="pie-chart-description">
+                  This pie chart shows the percentage breakdown of spending by category for the selected date range.
+                  The total spending is ${filteredTotalExpenses.toFixed(2)}.
+                </p>
                 {filteredSpendingByCategoryData.length > 0 ? (
-                  <ResponsiveContainer width="100%" height={250}>
-                    <PieChart>
-                      <Pie
-                        data={filteredSpendingByCategoryData}
-                        dataKey="value"
-                        nameKey="name"
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={100}
-                        fill="#8884d8"
-                        labelLine={false}
-                        label={({ name, percent }) =>
-                          percent !== undefined
-                            ? `${name} ${(percent * 100).toFixed(0)}%`
-                            : name
-                        }
-                      >
-                        {filteredSpendingByCategoryData.map((_entry, index) => (
-                          <Cell
-                            key={`cell-${index}`}
-                            fill={COLORS[index % COLORS.length]}
-                          />
-                        ))}
-                      </Pie>
-                      <Tooltip content={<CustomTooltip />} />
-                      <Legend />
-                    </PieChart>
-                  </ResponsiveContainer>
+                  <div role="img" aria-labelledby="pie-chart-title" aria-describedby="pie-chart-description">
+                    <ResponsiveContainer width="100%" height={250}>
+                      <PieChart>
+                        <Pie
+                          data={filteredSpendingByCategoryData}
+                          dataKey="value"
+                          nameKey="name"
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={100}
+                          fill="#8884d8"
+                          labelLine={false}
+                          label={({ name, percent }) =>
+                            percent !== undefined
+                              ? `${name} ${(percent * 100).toFixed(0)}%`
+                              : name
+                          }
+                        >
+                          {filteredSpendingByCategoryData.map((_entry, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={COLORS[index % COLORS.length]}
+                            />
+                          ))}
+                        </Pie>
+                        <Tooltip content={<CustomTooltip />} />
+                        <Legend />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
                 ) : (
                   <Box
                     sx={{
@@ -668,27 +688,32 @@ const ReportsPage: React.FC = () => {
                 }}
               >
                 <Box mb={2}>
-                  <Typography variant="body1" color="text.secondary">
+                  <Typography id="top-spending-bar-chart-title" variant="body1" color="text.secondary">
                     Top Spending Categories
                   </Typography>
                   <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                     Visualizing your top expenses
                   </Typography>
                 </Box>
-                <ResponsiveContainer width="100%" height={250}>
-                  <BarChart
-                    data={filteredSpendingByCategoryData
-                      .slice()
-                      .sort((a, b) => b.value - a.value)
-                      .slice(0, 5)}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="value" fill="#82ca9d" />
-                  </BarChart>
-                </ResponsiveContainer>
+                <p className="visually-hidden" id="top-spending-bar-chart-description">
+                  This bar chart shows the top 5 spending categories for the selected date range, ranked from highest to lowest.
+                </p>
+                <div role="img" aria-labelledby="top-spending-bar-chart-title" aria-describedby="top-spending-bar-chart-description">
+                  <ResponsiveContainer width="100%" height={250}>
+                    <BarChart
+                      data={filteredSpendingByCategoryData
+                        .slice()
+                        .sort((a, b) => b.value - a.value)
+                        .slice(0, 5)}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <Tooltip />
+                      <Bar dataKey="value" fill="#82ca9d" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
               </Paper>
             </Grid>
           </Grid>
@@ -708,11 +733,14 @@ const ReportsPage: React.FC = () => {
               sx={{ borderRadius: 2, border: '1px solid #e0e0e0' }}
             >
               <Table>
+                <caption className="visually-hidden">
+                  A detailed table showing the spending breakdown for each category within the selected date range.
+                </caption>
                 <TableHead>
                   <TableRow>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Category</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Amount</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>
+                    <TableCell sx={{ fontWeight: 'bold' }} scope="col">Category</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold' }} scope="col">Amount</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold' }} scope="col">
                       Percentage
                     </TableCell>
                   </TableRow>
@@ -759,6 +787,7 @@ const ReportsPage: React.FC = () => {
                 fullWidth
                 label="Start Date"
                 type="date"
+                id="custom-report-start-date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
                 InputLabelProps={{
@@ -771,6 +800,7 @@ const ReportsPage: React.FC = () => {
                 fullWidth
                 label="End Date"
                 type="date"
+                id="custom-report-end-date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
                 InputLabelProps={{
@@ -818,17 +848,20 @@ const ReportsPage: React.FC = () => {
                 sx={{ borderRadius: 2, border: '1px solid #e0e0e0' }}
               >
                 <Table>
+                  <caption className="visually-hidden">
+                    A table of all transactions filtered by the selected date range.
+                  </caption>
                   <TableHead>
                     <TableRow>
-                      <TableCell sx={{ fontWeight: 'bold' }}>Date</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold' }}>
+                      <TableCell sx={{ fontWeight: 'bold' }} scope="col">Date</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }} scope="col">
                         Category
                       </TableCell>
-                      <TableCell sx={{ fontWeight: 'bold' }}>
+                      <TableCell sx={{ fontWeight: 'bold' }} scope="col">
                         Description
                       </TableCell>
-                      <TableCell sx={{ fontWeight: 'bold' }}>Amount</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold' }}>Type</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }} scope="col">Amount</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }} scope="col">Type</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>

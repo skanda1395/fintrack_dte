@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { Box, CircularProgress } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 
 const PublicOnlyRoute: React.FC = () => {
   const { user, loading } = useAuth();
@@ -11,6 +11,7 @@ const PublicOnlyRoute: React.FC = () => {
       <Box
         sx={{
           display: 'flex',
+          flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
           minHeight: '100vh',
@@ -18,6 +19,7 @@ const PublicOnlyRoute: React.FC = () => {
         }}
       >
         <CircularProgress />
+        <Typography sx={{ display: 'none' }}>Checking authentication status...</Typography>
       </Box>
     );
   }
