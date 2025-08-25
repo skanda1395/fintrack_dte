@@ -64,5 +64,5 @@ This project follows a standard and scalable file structure.
 - ```src/theme```: Theme configuration for Material-UI.
 - ```src/assets```: Static assets like images and fonts.
 - ```src/services```: Functions for interacting with external APIs, databases, or services.
--- ```src/theme```: Theme configuration for Material-UI.
--- ```src/assets```: Static assets like images and fonts.
+- ```src/theme```: Theme configuration for Material-UI.
+- ```src/assets```: Static assets like images and fonts.
