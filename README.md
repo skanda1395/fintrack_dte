@@ -29,7 +29,7 @@ A finance tracker application built with React and Material-UI. FinTrack helps u
 
 Follow these steps to get the FinTrack project up and running on your local machine.
 
-1.  git clone __URL__
+1.  git clone ```REPO_URL```
 2.  npm install or yarn install
 
 ## 🚀 Running the Application
@@ -56,4 +56,13 @@ This will run Vitest in watch mode, rerunning tests when files change. Press q�
 
 This project follows a standard and scalable file structure.
 
-- ```js src/components``` Reusable UI components.
+- ```src/components```: Reusable UI components.
+- ```src/pages```: Top-level components that correspond to different routes.
+- ```src/contexts```: React context providers for global state management (e.g., Auth, Theme).
+- ```src/hooks```: Custom React hooks for shared logic.
+- ```src/interfaces```: TypeScript interfaces for data models.
+- ```src/theme```: Theme configuration for Material-UI.
+- ```src/assets```: Static assets like images and fonts.
+- ```src/services```: Functions for interacting with external APIs, databases, or services.
+-- ```src/theme```: Theme configuration for Material-UI.
+-- ```src/assets```: Static assets like images and fonts.
