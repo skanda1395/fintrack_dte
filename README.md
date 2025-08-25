@@ -2,6 +2,8 @@
 
 A finance tracker application built with React and Material-UI. FinTrack helps users manage their expenses, track transactions, set budgets, and view financial reports with a clean and intuitive user interface.
 
+![FinTrack](https://github.com/skanda1395/fintrack_dte/public/landing_page/png "FinTrack landing page")
+
 ## 🚀 Features  
 
 - **Financial Tracking**: Easily add, categorize, and manage your income and expenses.
@@ -59,7 +61,7 @@ This project follows a standard and scalable file structure.
 - ```src/components```: Reusable UI components.
 - ```src/pages```: Top-level components that correspond to different routes.
 - ```src/contexts```: React context providers for global state management (e.g., Auth, Theme).
-- ```src/hooks```: Custom React hooks for shared logic.
+- ```src/hooks```: Custom React hooks, including data fetching logic using React Query.
 - ```src/interfaces```: TypeScript interfaces for data models.
 - ```src/theme```: Theme configuration for Material-UI.
 - ```src/assets```: Static assets like images and fonts.
