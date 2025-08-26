@@ -126,10 +126,18 @@ const TransactionFormModal: React.FC<TransactionFormModalProps> = ({
     }
   };
 
-  const dialogTitleId = initialTransaction ? 'edit-transaction-title' : 'add-transaction-title';
+  const dialogTitleId = initialTransaction
+    ? 'edit-transaction-title'
+    : 'add-transaction-title';
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm" aria-labelledby={dialogTitleId}>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      fullWidth
+      maxWidth="sm"
+      aria-labelledby={dialogTitleId}
+    >
       <DialogTitle id={dialogTitleId}>
         <Box
           sx={{
@@ -139,7 +147,11 @@ const TransactionFormModal: React.FC<TransactionFormModalProps> = ({
           }}
         >
           {initialTransaction ? 'Edit Transaction' : 'Add New Transaction'}
-          <IconButton onClick={onClose} size="small" aria-label="Close transaction form">
+          <IconButton
+            onClick={onClose}
+            size="small"
+            aria-label="Close transaction form"
+          >
             <Close />
           </IconButton>
         </Box>

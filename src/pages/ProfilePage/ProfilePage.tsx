@@ -53,7 +53,9 @@ const ProfilePage: React.FC = () => {
             fontSize: '3rem',
           }}
           role="img"
-          aria-label={user.name ? `User avatar for ${user.name}` : "User profile avatar"}
+          aria-label={
+            user.name ? `User avatar for ${user.name}` : 'User profile avatar'
+          }
         >
           {user.name ? (
             user.name.charAt(0).toUpperCase()
@@ -73,7 +75,13 @@ const ProfilePage: React.FC = () => {
           Welcome to your FinTrack profile.
         </Typography>
 
-        <Grid container spacing={3} alignItems="center" sx={{ mb: 4 }} role="list">
+        <Grid
+          container
+          spacing={3}
+          alignItems="center"
+          sx={{ mb: 4 }}
+          role="list"
+        >
           <Grid
             size={{ xs: 12, sm: 4 }}
             sx={{ textAlign: { xs: 'center', sm: 'right' } }}

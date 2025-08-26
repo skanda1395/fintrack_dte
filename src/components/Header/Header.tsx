@@ -37,7 +37,8 @@ const Header: React.FC = () => {
   const theme = useTheme();
   const location = useLocation();
   const { user, logout } = useAuth();
-  const [profileMenuAnchorEl, setProfileMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const [profileMenuAnchorEl, setProfileMenuAnchorEl] =
+    useState<null | HTMLElement>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isProfileMenuOpen = Boolean(profileMenuAnchorEl);
@@ -154,18 +155,28 @@ const Header: React.FC = () => {
           </Typography>
         </Box>
 
-        <Box sx={{ display: { xs: 'none', md: 'flex' } }} component="nav" aria-label="main navigation">
+        <Box
+          sx={{ display: { xs: 'none', md: 'flex' } }}
+          component="nav"
+          aria-label="main navigation"
+        >
           {topNavItems.map((item) => (
             <Button
               key={item.text}
               component={RouterLink}
               to={item.path}
               sx={{
-                color: location.pathname === item.path ? theme.palette.primary.main : 'inherit',
+                color:
+                  location.pathname === item.path
+                    ? theme.palette.primary.main
+                    : 'inherit',
                 mx: 1,
                 textTransform: 'capitalize',
                 fontWeight: location.pathname === item.path ? 'bold' : 'medium',
-                borderBottom: location.pathname === item.path ? `2px solid ${theme.palette.primary.main}` : 'none',
+                borderBottom:
+                  location.pathname === item.path
+                    ? `2px solid ${theme.palette.primary.main}`
+                    : 'none',
                 borderRadius: 0,
                 paddingBottom: '6px',
               }}

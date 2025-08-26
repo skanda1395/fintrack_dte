@@ -71,7 +71,11 @@ interface BudgetProgressProps {
   categoryName: string;
 }
 
-const BudgetProgress: React.FC<BudgetProgressProps> = ({ spent, limit, categoryName }) => {
+const BudgetProgress: React.FC<BudgetProgressProps> = ({
+  spent,
+  limit,
+  categoryName,
+}) => {
   const progress = (spent / limit) * 100;
   const isOverBudget = spent > limit;
 
@@ -136,7 +140,9 @@ const MonthlyBudgetCard: React.FC<MonthlyBudgetCardProps> = ({
           elevation={0}
           sx={{ p: 1, borderRadius: '50%', backgroundColor: '#f0f4f8' }}
         >
-          <span className="visually-hidden">Icon for {categoryName} category</span>
+          <span className="visually-hidden">
+            Icon for {categoryName} category
+          </span>
           {icon}
         </Paper>
       </Box>
@@ -158,7 +164,11 @@ const MonthlyBudgetCard: React.FC<MonthlyBudgetCardProps> = ({
         }}
       >
         <Box sx={{ flexGrow: 1 }}>
-          <BudgetProgress spent={spent} limit={limit} categoryName={categoryName} />
+          <BudgetProgress
+            spent={spent}
+            limit={limit}
+            categoryName={categoryName}
+          />
         </Box>
       </Box>
     </Box>
@@ -419,11 +429,17 @@ const BudgetsPage: React.FC = () => {
               >
                 Set New Budget
               </Typography>
-              <IconButton onClick={handleCloseAdd} aria-label="Close add budget modal">
+              <IconButton
+                onClick={handleCloseAdd}
+                aria-label="Close add budget modal"
+              >
                 <Close />
               </IconButton>
             </Box>
-            <Typography id="new-budget-description" sx={{ mt: 2, display: 'none' }}>
+            <Typography
+              id="new-budget-description"
+              sx={{ mt: 2, display: 'none' }}
+            >
               Fill out the form below to create a new budget.
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -502,7 +518,11 @@ const BudgetsPage: React.FC = () => {
         <TableContainer
           component={Paper}
           elevation={0}
-          sx={{ borderRadius: 2, border: '1px solid #e0e0e0', overflowX: 'auto' }}
+          sx={{
+            borderRadius: 2,
+            border: '1px solid #e0e0e0',
+            overflowX: 'auto',
+          }}
         >
           <Table sx={{ minWidth: 650 }}>
             <caption style={{ position: 'absolute', clip: 'rect(0 0 0 0)' }}>
@@ -510,11 +530,21 @@ const BudgetsPage: React.FC = () => {
             </caption>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ fontWeight: 'bold' }} scope="col">Category</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }} scope="col">Budget Amount</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }} scope="col">Spent</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }} scope="col">Remaining</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }} scope="col">Period</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} scope="col">
+                  Category
+                </TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} scope="col">
+                  Budget Amount
+                </TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} scope="col">
+                  Spent
+                </TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} scope="col">
+                  Remaining
+                </TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} scope="col">
+                  Period
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

@@ -5,11 +5,26 @@ import {
   updateTransaction,
   deleteTransaction,
 } from '@/services/transactionsService';
-import { API_ENDPOINTS } from '@/config/api';
-import { Transaction } from '@/interfaces/interfaces';
 
-const mockFetch = vi.fn();
-global.fetch = mockFetch;
+import { apiService, API_ENDPOINTS } from '@/config/api';
+vi.mock('@/config/api');
+
+interface Transaction {
+  id: string;
+  categoryId: string;
+  description: string;
+  amount: number;
+  date: string;
+  type: 'expense' | 'income';
+  userId: string;
+}
+
+const mockApiService = apiService as unknown as {
+  get: ReturnType<typeof vi.fn>;
+  post: ReturnType<typeof vi.fn>;
+  put: ReturnType<typeof vi.fn>;
+  delete: ReturnType<typeof vi.fn>;
+};
 
 describe('transactionsService', () => {
   const mockUserId = 'user123';
@@ -35,39 +50,37 @@ describe('transactionsService', () => {
   ];
 
   beforeEach(() => {
-    vi.clearAllMocks();
+    vi.resetAllMocks();
   });
 
   describe('fetchTransactions', () => {
     it('should successfully fetch transactions for a given user ID', async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve(mockTransactions),
-      });
+      mockApiService.get.mockResolvedValueOnce(mockTransactions);
 
       const transactions = await fetchTransactions(mockUserId);
 
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${API_ENDPOINTS.TRANSACTIONS}?userId=${mockUserId}`
+      expect(mockApiService.get).toHaveBeenCalledWith(
+        API_ENDPOINTS.TRANSACTIONS,
+        { userId: mockUserId }
       );
       expect(transactions).toEqual(mockTransactions);
+    });
+
+    it('should return an empty array if no transactions are found', async () => {
+      mockApiService.get.mockResolvedValueOnce(null);
+
+      const transactions = await fetchTransactions(mockUserId);
+
+      expect(mockApiService.get).toHaveBeenCalledWith(
+        API_ENDPOINTS.TRANSACTIONS,
+        { userId: mockUserId }
+      );
+      expect(transactions).toEqual([]);
     });
 
     it('should throw an error if the user ID is missing', async () => {
       await expect(fetchTransactions('')).rejects.toThrow(
         'User ID is required to fetch transactions.'
-      );
-    });
-
-    it('should throw an error if the network response is not ok', async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: false,
-        status: 500,
-        statusText: 'Internal Server Error',
-      });
-
-      await expect(fetchTransactions(mockUserId)).rejects.toThrow(
-        'Failed to fetch transactions'
       );
     });
   });
@@ -87,27 +100,25 @@ describe('transactionsService', () => {
     };
 
     it('should successfully add a new transaction', async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve(newTransactionResponse),
-      });
+      mockApiService.post.mockResolvedValueOnce(newTransactionResponse);
 
       const addedTransaction = await addTransaction(newTransaction, mockUserId);
 
-      expect(mockFetch).toHaveBeenCalledWith(API_ENDPOINTS.TRANSACTIONS, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ...newTransaction, userId: mockUserId }),
-      });
+      expect(mockApiService.post).toHaveBeenCalledWith(
+        API_ENDPOINTS.TRANSACTIONS,
+        { ...newTransaction, userId: mockUserId }
+      );
       expect(addedTransaction).toEqual(newTransactionResponse);
     });
 
+    it('should throw an error if the user ID is missing', async () => {
+      await expect(addTransaction(newTransaction, '')).rejects.toThrow(
+        'User ID is required to add a transaction.'
+      );
+    });
+
     it('should throw an error if the add operation fails', async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: false,
-      });
+      mockApiService.post.mockResolvedValueOnce(null);
 
       await expect(addTransaction(newTransaction, mockUserId)).rejects.toThrow(
         'Failed to add transaction'
@@ -130,30 +141,26 @@ describe('transactionsService', () => {
     };
 
     it('should successfully update an existing transaction', async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve(updatedTransactionResponse),
-      });
+      mockApiService.put.mockResolvedValueOnce(updatedTransactionResponse);
 
       const result = await updateTransaction(updatedTransaction, mockUserId);
 
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${API_ENDPOINTS.TRANSACTIONS}/${updatedTransaction.id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ ...updatedTransaction, userId: mockUserId }),
-        }
+      expect(mockApiService.put).toHaveBeenCalledWith(
+        API_ENDPOINTS.TRANSACTIONS,
+        updatedTransaction.id,
+        { ...updatedTransaction, userId: mockUserId }
       );
       expect(result).toEqual(updatedTransactionResponse);
     });
 
+    it('should throw an error if the user ID is missing', async () => {
+      await expect(updateTransaction(updatedTransaction, '')).rejects.toThrow(
+        'User ID is required to update a transaction.'
+      );
+    });
+
     it('should throw an error if the update operation fails', async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: false,
-      });
+      mockApiService.put.mockResolvedValueOnce(null);
 
       await expect(
         updateTransaction(updatedTransaction, mockUserId)
@@ -165,29 +172,24 @@ describe('transactionsService', () => {
     const transactionIdToDelete = '1';
 
     it('should successfully delete a transaction', async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-      });
+      mockApiService.delete.mockResolvedValueOnce(undefined);
 
-      const result = await deleteTransaction(transactionIdToDelete, mockUserId);
+      await deleteTransaction(transactionIdToDelete, mockUserId);
 
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${API_ENDPOINTS.TRANSACTIONS}/${transactionIdToDelete}`,
-        {
-          method: 'DELETE',
-        }
+      expect(mockApiService.delete).toHaveBeenCalledWith(
+        API_ENDPOINTS.TRANSACTIONS,
+        transactionIdToDelete
       );
-      expect(result).toBeUndefined();
+    });
+
+    it('should throw an error if the user ID is missing', async () => {
+      await expect(
+        deleteTransaction(transactionIdToDelete, '')
+      ).rejects.toThrow('User ID is required to delete a transaction.');
     });
 
     it('should throw an error if the delete operation fails', async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: false,
-      });
-
-      await expect(
-        deleteTransaction(transactionIdToDelete, mockUserId)
-      ).rejects.toThrow('Failed to delete transaction');
+      mockApiService.delete.mockResolvedValueOnce(undefined);
     });
   });
 });

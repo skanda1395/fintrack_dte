@@ -4,7 +4,7 @@ A finance tracker application built with React and Material-UI. FinTrack helps u
 
 ![FinTrack](https://github.com/skanda1395/fintrack_dte/blob/master/public/landing_page.png)
 
-## 🚀 Features  
+## 🚀 Features
 
 - **Financial Tracking**: Easily add, categorize, and manage your income and expenses.
 - **MUI Integration:** Leverages Material-UI for a consistent and customizable design system.
@@ -14,7 +14,6 @@ A finance tracker application built with React and Material-UI. FinTrack helps u
 - **Google Fonts (Inter):** Utilizes the Inter font family for modern and readable typography.
 - **Robust Testing Setup:** Configured with Vitest and React Testing Library for reliable unit testing of components.
 - **Theme Toggling:** Supports light and dark modes with a dedicated toggle button.
-
 
 ## 🛠️ Technologies Used
 
@@ -31,7 +30,7 @@ A finance tracker application built with React and Material-UI. FinTrack helps u
 
 Follow these steps to get the FinTrack project up and running on your local machine.
 
-1.  git clone ```REPO_URL```
+1.  git clone `REPO_URL`
 2.  npm install or yarn install
 
 ## 🚀 Running the Application
@@ -58,13 +57,13 @@ This will run Vitest in watch mode, rerunning tests when files change. Press q�
 
 This project follows a standard and scalable file structure.
 
-- ```src/components```: Reusable UI components.
-- ```src/pages```: Top-level components that correspond to different routes.
-- ```src/contexts```: React context providers for global state management (e.g., Auth, Theme).
-- ```src/hooks```: Custom React hooks, including data fetching logic using React Query.
-- ```src/interfaces```: TypeScript interfaces for data models.
-- ```src/theme```: Theme configuration for Material-UI.
-- ```src/assets```: Static assets like images and fonts.
-- ```src/services```: Functions for interacting with external APIs, databases, or services.
-- ```src/theme```: Theme configuration for Material-UI.
-- ```src/assets```: Static assets like images and fonts.
+- `src/components`: Reusable UI components.
+- `src/pages`: Top-level components that correspond to different routes.
+- `src/contexts`: React context providers for global state management (e.g., Auth, Theme).
+- `src/hooks`: Custom React hooks, including data fetching logic using React Query.
+- `src/interfaces`: TypeScript interfaces for data models.
+- `src/theme`: Theme configuration for Material-UI.
+- `src/assets`: Static assets like images and fonts.
+- `src/services`: Functions for interacting with external APIs, databases, or services.
+- `src/theme`: Theme configuration for Material-UI.
+- `src/assets`: Static assets like images and fonts.

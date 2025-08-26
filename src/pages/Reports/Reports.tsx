@@ -367,7 +367,10 @@ const ReportsPage: React.FC = () => {
             borderRadius: '4px 4px 0 0',
             borderBottom: activeTab === 'monthlySummary' ? '2px solid' : 'none',
             borderColor: 'primary.main',
-            color: activeTab === 'monthlySummary' ? 'primary.main' : 'text.secondary',
+            color:
+              activeTab === 'monthlySummary'
+                ? 'primary.main'
+                : 'text.secondary',
             textTransform: 'none',
           }}
         >
@@ -378,9 +381,13 @@ const ReportsPage: React.FC = () => {
           sx={{
             minWidth: 'auto',
             borderRadius: '4px 4px 0 0',
-            borderBottom: activeTab === 'categoryBreakdown' ? '2px solid' : 'none',
+            borderBottom:
+              activeTab === 'categoryBreakdown' ? '2px solid' : 'none',
             borderColor: 'primary.main',
-            color: activeTab === 'categoryBreakdown' ? 'primary.main' : 'text.secondary',
+            color:
+              activeTab === 'categoryBreakdown'
+                ? 'primary.main'
+                : 'text.secondary',
             textTransform: 'none',
           }}
         >
@@ -393,7 +400,8 @@ const ReportsPage: React.FC = () => {
             borderRadius: '4px 4px 0 0',
             borderBottom: activeTab === 'customReport' ? '2px solid' : 'none',
             borderColor: 'primary.main',
-            color: activeTab === 'customReport' ? 'primary.main' : 'text.secondary',
+            color:
+              activeTab === 'customReport' ? 'primary.main' : 'text.secondary',
             textTransform: 'none',
           }}
         >
@@ -419,17 +427,31 @@ const ReportsPage: React.FC = () => {
                 sx={{ p: 3, borderRadius: 2, border: '1px solid #e0e0e0' }}
               >
                 <Box mb={2}>
-                  <Typography id="monthly-spending-title" variant="body1" color="text.secondary">
+                  <Typography
+                    id="monthly-spending-title"
+                    variant="body1"
+                    color="text.secondary"
+                  >
                     Total Spending Over Time
                   </Typography>
                   <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                     ${totalExpenses.toFixed(2)}
                   </Typography>
                 </Box>
-                <p className="visually-hidden" id="monthly-spending-description">
-                  This line chart shows total expenses by month. The total spending over all periods is ${totalExpenses.toFixed(2)}. The chart shows a trend of spending over time, with each data point representing a month.
+                <p
+                  className="visually-hidden"
+                  id="monthly-spending-description"
+                >
+                  This line chart shows total expenses by month. The total
+                  spending over all periods is ${totalExpenses.toFixed(2)}. The
+                  chart shows a trend of spending over time, with each data
+                  point representing a month.
                 </p>
-                <div role="img" aria-labelledby="monthly-spending-title" aria-describedby="monthly-spending-description">
+                <div
+                  role="img"
+                  aria-labelledby="monthly-spending-title"
+                  aria-describedby="monthly-spending-description"
+                >
                   <ResponsiveContainer width="100%" height={200}>
                     <LineChart data={monthlySpendingData}>
                       <CartesianGrid strokeDasharray="3 3" />
@@ -456,17 +478,30 @@ const ReportsPage: React.FC = () => {
                 sx={{ p: 3, borderRadius: 2, border: '1px solid #e0e0e0' }}
               >
                 <Box mb={2}>
-                  <Typography id="spending-by-category-title" variant="body1" color="text.secondary">
+                  <Typography
+                    id="spending-by-category-title"
+                    variant="body1"
+                    color="text.secondary"
+                  >
                     Spending by Category
                   </Typography>
                   <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                     ${totalExpenses.toFixed(2)}
                   </Typography>
                 </Box>
-                <p className="visually-hidden" id="spending-by-category-description">
-                  This bar chart shows total spending broken down by category. The chart is a visual representation of the data found in the &apos;Spending Breakdown&apos; table below.
+                <p
+                  className="visually-hidden"
+                  id="spending-by-category-description"
+                >
+                  This bar chart shows total spending broken down by category.
+                  The chart is a visual representation of the data found in the
+                  &apos;Spending Breakdown&apos; table below.
                 </p>
-                <div role="img" aria-labelledby="spending-by-category-title" aria-describedby="spending-by-category-description">
+                <div
+                  role="img"
+                  aria-labelledby="spending-by-category-title"
+                  aria-describedby="spending-by-category-description"
+                >
                   <ResponsiveContainer width="100%" height={200}>
                     <BarChart data={spendingByCategoryData}>
                       <XAxis dataKey="name" />
@@ -532,12 +567,18 @@ const ReportsPage: React.FC = () => {
             >
               <Table>
                 <caption className="visually-hidden">
-                  A table showing the breakdown of all spending by category, including the total amount and percentage of all time expenses.
+                  A table showing the breakdown of all spending by category,
+                  including the total amount and percentage of all time
+                  expenses.
                 </caption>
                 <TableHead>
                   <TableRow>
-                    <TableCell sx={{ fontWeight: 'bold' }} scope="col">Category</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }} scope="col">Amount</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold' }} scope="col">
+                      Category
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: 'bold' }} scope="col">
+                      Amount
+                    </TableCell>
                     <TableCell sx={{ fontWeight: 'bold' }} scope="col">
                       Percentage
                     </TableCell>
@@ -619,7 +660,11 @@ const ReportsPage: React.FC = () => {
                 }}
               >
                 <Box mb={2}>
-                  <Typography id="pie-chart-title" variant="body1" color="text.secondary">
+                  <Typography
+                    id="pie-chart-title"
+                    variant="body1"
+                    color="text.secondary"
+                  >
                     Spending by Category
                   </Typography>
                   <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
@@ -627,11 +672,16 @@ const ReportsPage: React.FC = () => {
                   </Typography>
                 </Box>
                 <p className="visually-hidden" id="pie-chart-description">
-                  This pie chart shows the percentage breakdown of spending by category for the selected date range.
-                  The total spending is ${filteredTotalExpenses.toFixed(2)}.
+                  This pie chart shows the percentage breakdown of spending by
+                  category for the selected date range. The total spending is $
+                  {filteredTotalExpenses.toFixed(2)}.
                 </p>
                 {filteredSpendingByCategoryData.length > 0 ? (
-                  <div role="img" aria-labelledby="pie-chart-title" aria-describedby="pie-chart-description">
+                  <div
+                    role="img"
+                    aria-labelledby="pie-chart-title"
+                    aria-describedby="pie-chart-description"
+                  >
                     <ResponsiveContainer width="100%" height={250}>
                       <PieChart>
                         <Pie
@@ -649,12 +699,14 @@ const ReportsPage: React.FC = () => {
                               : name
                           }
                         >
-                          {filteredSpendingByCategoryData.map((_entry, index) => (
-                            <Cell
-                              key={`cell-${index}`}
-                              fill={COLORS[index % COLORS.length]}
-                            />
-                          ))}
+                          {filteredSpendingByCategoryData.map(
+                            (_entry, index) => (
+                              <Cell
+                                key={`cell-${index}`}
+                                fill={COLORS[index % COLORS.length]}
+                              />
+                            )
+                          )}
                         </Pie>
                         <Tooltip content={<CustomTooltip />} />
                         <Legend />
@@ -688,17 +740,29 @@ const ReportsPage: React.FC = () => {
                 }}
               >
                 <Box mb={2}>
-                  <Typography id="top-spending-bar-chart-title" variant="body1" color="text.secondary">
+                  <Typography
+                    id="top-spending-bar-chart-title"
+                    variant="body1"
+                    color="text.secondary"
+                  >
                     Top Spending Categories
                   </Typography>
                   <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                     Visualizing your top expenses
                   </Typography>
                 </Box>
-                <p className="visually-hidden" id="top-spending-bar-chart-description">
-                  This bar chart shows the top 5 spending categories for the selected date range, ranked from highest to lowest.
+                <p
+                  className="visually-hidden"
+                  id="top-spending-bar-chart-description"
+                >
+                  This bar chart shows the top 5 spending categories for the
+                  selected date range, ranked from highest to lowest.
                 </p>
-                <div role="img" aria-labelledby="top-spending-bar-chart-title" aria-describedby="top-spending-bar-chart-description">
+                <div
+                  role="img"
+                  aria-labelledby="top-spending-bar-chart-title"
+                  aria-describedby="top-spending-bar-chart-description"
+                >
                   <ResponsiveContainer width="100%" height={250}>
                     <BarChart
                       data={filteredSpendingByCategoryData
@@ -734,12 +798,17 @@ const ReportsPage: React.FC = () => {
             >
               <Table>
                 <caption className="visually-hidden">
-                  A detailed table showing the spending breakdown for each category within the selected date range.
+                  A detailed table showing the spending breakdown for each
+                  category within the selected date range.
                 </caption>
                 <TableHead>
                   <TableRow>
-                    <TableCell sx={{ fontWeight: 'bold' }} scope="col">Category</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }} scope="col">Amount</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold' }} scope="col">
+                      Category
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: 'bold' }} scope="col">
+                      Amount
+                    </TableCell>
                     <TableCell sx={{ fontWeight: 'bold' }} scope="col">
                       Percentage
                     </TableCell>
@@ -849,19 +918,26 @@ const ReportsPage: React.FC = () => {
               >
                 <Table>
                   <caption className="visually-hidden">
-                    A table of all transactions filtered by the selected date range.
+                    A table of all transactions filtered by the selected date
+                    range.
                   </caption>
                   <TableHead>
                     <TableRow>
-                      <TableCell sx={{ fontWeight: 'bold' }} scope="col">Date</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }} scope="col">
+                        Date
+                      </TableCell>
                       <TableCell sx={{ fontWeight: 'bold' }} scope="col">
                         Category
                       </TableCell>
                       <TableCell sx={{ fontWeight: 'bold' }} scope="col">
                         Description
                       </TableCell>
-                      <TableCell sx={{ fontWeight: 'bold' }} scope="col">Amount</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold' }} scope="col">Type</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }} scope="col">
+                        Amount
+                      </TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }} scope="col">
+                        Type
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>

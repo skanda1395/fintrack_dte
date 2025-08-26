@@ -39,10 +39,19 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
         </Typography>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} variant="outlined" aria-label="Cancel deletion">
+        <Button
+          onClick={onClose}
+          variant="outlined"
+          aria-label="Cancel deletion"
+        >
           Cancel
         </Button>
-        <Button onClick={onConfirm} variant="contained" color="error" aria-label="Confirm and delete transaction">
+        <Button
+          onClick={onConfirm}
+          variant="contained"
+          color="error"
+          aria-label="Confirm and delete transaction"
+        >
           Delete
         </Button>
       </DialogActions>

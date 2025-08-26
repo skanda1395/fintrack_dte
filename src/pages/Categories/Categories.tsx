@@ -226,17 +226,24 @@ const CategoriesPage: React.FC = () => {
           >
             <Table stickyHeader>
               <caption style={{ position: 'absolute', clip: 'rect(0 0 0 0)' }}>
-                A table listing all current categories and spending for the current month.
+                A table listing all current categories and spending for the
+                current month.
               </caption>
               <TableHead>
                 <TableRow>
-                  <TableCell sx={{ fontWeight: 'bold', minWidth: '200px' }} scope="col">
+                  <TableCell
+                    sx={{ fontWeight: 'bold', minWidth: '200px' }}
+                    scope="col"
+                  >
                     Category
                   </TableCell>
                   <TableCell sx={{ fontWeight: 'bold' }} scope="col">
                     Spending (Current Month)
                   </TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', minWidth: '120px' }} scope="col">
+                  <TableCell
+                    sx={{ fontWeight: 'bold', minWidth: '120px' }}
+                    scope="col"
+                  >
                     Actions
                   </TableCell>
                 </TableRow>
@@ -246,12 +253,14 @@ const CategoriesPage: React.FC = () => {
                   categories.map((category) => (
                     <TableRow key={category.id} hover>
                       <Tooltip title={category.name} arrow>
-                        <TableCell sx={{
-                          maxWidth: '200px',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap'
-                        }}>
+                        <TableCell
+                          sx={{
+                            maxWidth: '200px',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
                           {category.name}
                         </TableCell>
                       </Tooltip>
@@ -307,7 +316,11 @@ const CategoriesPage: React.FC = () => {
                 disabled={addMutation.isPending}
                 aria-describedby="add-category-help"
               />
-              <Typography id="add-category-help" variant="caption" sx={{ display: 'none' }}>
+              <Typography
+                id="add-category-help"
+                variant="caption"
+                sx={{ display: 'none' }}
+              >
                 Enter a name for your new expense category.
               </Typography>
             </Grid>
@@ -337,8 +350,8 @@ const CategoriesPage: React.FC = () => {
         </Box>
       </Box>
 
-      <Modal 
-        open={openEditModal} 
+      <Modal
+        open={openEditModal}
         onClose={() => setOpenEditModal(false)}
         aria-labelledby="edit-category-title"
         aria-describedby="edit-category-description"
@@ -353,7 +366,10 @@ const CategoriesPage: React.FC = () => {
             <Typography id="edit-category-title" variant="h5">
               Edit Category
             </Typography>
-            <IconButton onClick={() => setOpenEditModal(false)} aria-label="Close edit modal">
+            <IconButton
+              onClick={() => setOpenEditModal(false)}
+              aria-label="Close edit modal"
+            >
               <CloseIcon />
             </IconButton>
           </Box>

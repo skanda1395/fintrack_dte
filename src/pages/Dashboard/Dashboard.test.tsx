@@ -1,139 +1,131 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import {
-  fetchCategories,
-  addCategory,
-  updateCategory,
-} from '@/services/categoriesService';
-import { API_ENDPOINTS } from '@/config/api';
-import { Category } from '@/interfaces/interfaces';
+import { render, screen } from '@testing-library/react';
+import DashboardPage from './Dashboard';
+import { useAuth } from '@/contexts/AuthContext';
+import { useTransactions } from '@/hooks/transactionsQueries';
+import { useCategories } from '@/hooks/categoriesQueries';
+import { BrowserRouter } from 'react-router-dom';
+import '@testing-library/jest-dom';
+import { Transaction, Category } from '@/interfaces/interfaces';
 
-//
-const mockFetch = vi.fn();
-global.fetch = mockFetch;
+// Mock the hooks used by the component
+vi.mock('@/contexts/AuthContext');
+vi.mock('@/hooks/transactionsQueries');
+vi.mock('@/hooks/categoriesQueries');
 
-describe('categoriesService', () => {
-  const mockUserId = 'user123';
-  const mockCategories: Category[] = [
-    { id: '1', name: 'Groceries', spendingCurrentMonth: 0, userId: mockUserId },
-    { id: '2', name: 'Bills', spendingCurrentMonth: 0, userId: mockUserId },
-  ];
+// Mock data for testing
+const mockUser = { id: 'user123' };
 
+const mockTransactions: Transaction[] = [
+  {
+    id: 't1',
+    date: '2025-08-20',
+    description: 'Groceries',
+    amount: 50.0,
+    type: 'expense',
+    categoryId: 'c1',
+    userId: 'user123',
+  },
+  {
+    id: 't2',
+    date: '2025-08-22',
+    description: 'Salary',
+    amount: 2000.0,
+    type: 'income',
+    categoryId: 'c2',
+    userId: 'user123',
+  },
+  {
+    id: 't3',
+    date: '2025-08-25',
+    description: 'Dinner',
+    amount: 75.5,
+    type: 'expense',
+    categoryId: 'c1',
+    userId: 'user123',
+  },
+  {
+    id: 't4',
+    date: '2025-07-15',
+    description: 'Old Expense',
+    amount: 100.0,
+    type: 'expense',
+    categoryId: 'c3',
+    userId: 'user123',
+  },
+];
+
+const mockCategories: Category[] = [
+  { id: 'c1', name: 'Food', spendingCurrentMonth: 0, userId: 'user123' },
+  { id: 'c2', name: 'Income', spendingCurrentMonth: 0, userId: 'user123' },
+  { id: 'c3', name: 'Utilities', spendingCurrentMonth: 0, userId: 'user123' },
+];
+
+describe('DashboardPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    // Use a fixed date for consistent test results
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2025-08-26'));
   });
 
-  describe('fetchCategories', () => {
-    it('should successfully fetch categories for a given user ID', async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve(mockCategories),
-      });
-
-      const categories = await fetchCategories(mockUserId);
-
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${API_ENDPOINTS.CATEGORIES}?userId=${mockUserId}`
-      );
-      expect(categories).toEqual(mockCategories);
-    });
-
-    it('should throw an error if the user ID is missing', async () => {
-      await expect(fetchCategories('')).rejects.toThrow(
-        'User ID is required to fetch categories.'
-      );
-    });
-
-    it('should throw an error if the network response is not ok', async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: false,
-        status: 500,
-        statusText: 'Internal Server Error',
-      });
-
-      await expect(fetchCategories(mockUserId)).rejects.toThrow(
-        'Failed to fetch categories'
-      );
-    });
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
-  describe('addCategory', () => {
-    const newCategoryName = 'New Category';
-    const newCategoryResponse: Category = {
-      id: '3',
-      name: newCategoryName,
-      spendingCurrentMonth: 0,
-      userId: mockUserId,
-    };
-
-    it('should successfully add a new category', async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve(newCategoryResponse),
-      });
-
-      const addedCategory = await addCategory(newCategoryName, mockUserId);
-
-      expect(mockFetch).toHaveBeenCalledWith(API_ENDPOINTS.CATEGORIES, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: newCategoryName,
-          spendingLastMonth: 0,
-          userId: mockUserId,
-        }),
-      });
-      expect(addedCategory).toEqual(newCategoryResponse);
+  // Helper function to render the component with mocked data
+  const renderDashboard = (
+    authLoading = false,
+    transactionsLoading = false,
+    categoriesLoading = false,
+    transactionsData = mockTransactions,
+    categoriesData = mockCategories,
+    transactionsError = false,
+    categoriesError = false
+  ) => {
+    // Mock return values for each hook
+    (useAuth as any).mockReturnValue({
+      user: mockUser,
+      loading: authLoading,
+    });
+    (useTransactions as any).mockReturnValue({
+      data: transactionsData,
+      isLoading: transactionsLoading,
+      isError: transactionsError,
+    });
+    (useCategories as any).mockReturnValue({
+      data: categoriesData,
+      isLoading: categoriesLoading,
+      isError: categoriesError,
     });
 
-    it('should throw an error if the add operation fails', async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: false,
-      });
+    return render(
+      <BrowserRouter>
+        <DashboardPage />
+      </BrowserRouter>
+    );
+  };
 
-      await expect(addCategory(newCategoryName, mockUserId)).rejects.toThrow(
-        'Failed to add category'
-      );
-    });
+  it('should render a loading spinner when data is being fetched', () => {
+    renderDashboard(false, true, false);
+
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
   });
 
-  describe('updateCategory', () => {
-    const updatedCategory: Omit<Category, 'userId'> = {
-      id: '1',
-      name: 'Updated Groceries',
-      spendingCurrentMonth: 50,
-    };
+  it('should render an error alert when data fetching fails', () => {
+    renderDashboard(false, false, false, [], [], true, false);
 
-    it('should successfully update an existing category', async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve({ ...updatedCategory, userId: mockUserId }),
-      });
+    expect(screen.getByRole('alert')).toBeInTheDocument();
+    expect(
+      screen.getByText(/failed to load dashboard data/i)
+    ).toBeInTheDocument();
+  });
 
-      const result = await updateCategory(updatedCategory, mockUserId);
+  it('should display a message when there are no recent transactions', () => {
+    renderDashboard(false, false, false, [], mockCategories);
 
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${API_ENDPOINTS.CATEGORIES}/${updatedCategory.id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ ...updatedCategory, userId: mockUserId }),
-        }
-      );
-      expect(result).toEqual({ ...updatedCategory, userId: mockUserId });
-    });
-
-    it('should throw an error if the update operation fails', async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: false,
-      });
-
-      await expect(updateCategory(updatedCategory, mockUserId)).rejects.toThrow(
-        'Failed to update category'
-      );
-    });
+    expect(
+      screen.getByText(/No recent transactions found/i)
+    ).toBeInTheDocument();
   });
 });

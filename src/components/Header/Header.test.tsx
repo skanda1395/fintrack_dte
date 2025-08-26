@@ -1,13 +1,26 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  within,
+} from '@testing-library/react';
+import { BrowserRouter, useLocation } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import '@testing-library/jest-dom';
 import Header from './Header';
 
-// Mock the contexts
 const mockLogout = vi.fn();
 const mockUseAuth = vi.fn();
+
+vi.mock('react-router-dom', async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    useLocation: vi.fn(() => ({ pathname: '/dashboard' })),
+  };
+});
 
 vi.mock('@/contexts/AuthContext', () => ({
   useAuth: () => mockUseAuth(),
@@ -17,7 +30,6 @@ vi.mock('@/components/ThemeToggle/ThemeToggleButton', () => ({
   default: () => <button>Theme Toggle</button>,
 }));
 
-// Create a test wrapper component
 const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const theme = createTheme();
   return (
@@ -44,7 +56,9 @@ describe('Header', () => {
       </TestWrapper>
     );
 
-    const loginButton = screen.getByRole('link', { name: /login/i });
+    const loginButton = screen.getByRole('link', {
+      name: /Login to your account/i,
+    });
     expect(loginButton).toBeInTheDocument();
     expect(loginButton).toHaveAttribute('href', '/login');
   });
@@ -61,14 +75,14 @@ describe('Header', () => {
       </TestWrapper>
     );
 
-    const profileButton = screen.getByLabelText('profile menu');
+    const profileButton = screen.getByLabelText('open user profile menu');
     const loginButton = screen.queryByRole('link', { name: /login/i });
 
     expect(profileButton).toBeInTheDocument();
     expect(loginButton).not.toBeInTheDocument();
   });
 
-  it('renders all navigation links with correct paths', () => {
+  it('renders all desktop navigation links with correct paths', () => {
     mockUseAuth.mockReturnValue({
       user: { id: '1', name: 'Test User' },
       logout: mockLogout,
@@ -95,7 +109,7 @@ describe('Header', () => {
     });
   });
 
-  it('opens profile dropdown and shows menu options when profile button is clicked', () => {
+  it('opens profile dropdown and shows menu options when profile button is clicked', async () => {
     mockUseAuth.mockReturnValue({
       user: { id: '1', name: 'Test User' },
       logout: mockLogout,
@@ -107,14 +121,16 @@ describe('Header', () => {
       </TestWrapper>
     );
 
-    const profileButton = screen.getByLabelText('profile menu');
+    const profileButton = screen.getByLabelText('open user profile menu');
     fireEvent.click(profileButton);
 
-    expect(screen.getByText('My Profile')).toBeInTheDocument();
-    expect(screen.getByText('Logout')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('My Profile')).toBeInTheDocument();
+      expect(screen.getByText('Logout')).toBeInTheDocument();
+    });
   });
 
-  it('calls logout function when logout menu item is clicked', () => {
+  it('calls logout function when logout menu item is clicked', async () => {
     mockUseAuth.mockReturnValue({
       user: { id: '1', name: 'Test User' },
       logout: mockLogout,
@@ -126,12 +142,39 @@ describe('Header', () => {
       </TestWrapper>
     );
 
-    const profileButton = screen.getByLabelText('profile menu');
+    const profileButton = screen.getByLabelText('open user profile menu');
     fireEvent.click(profileButton);
 
     const logoutMenuItem = screen.getByText('Logout');
     fireEvent.click(logoutMenuItem);
 
-    expect(mockLogout).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      expect(mockLogout).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('correctly highlights the active navigation link', async () => {
+    mockUseAuth.mockReturnValue({ user: { id: '1' } });
+
+    (useLocation as vi.Mock).mockReturnValue({ pathname: '/dashboard' });
+
+    render(
+      <TestWrapper>
+        <Header />
+      </TestWrapper>
+    );
+
+    const dashboardLink = screen.getByRole('link', { name: 'Dashboard' });
+    const transactionsLink = screen.getByRole('link', { name: 'Transactions' });
+
+    await waitFor(() => {
+      expect(dashboardLink).toHaveStyle(
+        `color: ${createTheme().palette.primary.main}`
+      );
+      ('bold');
+      expect(dashboardLink).toHaveStyle('font-weight: 700');
+
+      expect(transactionsLink).not.toHaveStyle('font-weight: 700');
+    });
   });
 });

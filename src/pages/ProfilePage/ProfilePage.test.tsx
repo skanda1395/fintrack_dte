@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import ProfilePage from './ProfilePage';
 import { useAuth } from '@/contexts/AuthContext';
 import '@testing-library/jest-dom';
@@ -45,7 +45,7 @@ describe('ProfilePage', () => {
     expect(screen.getByText(mockUser.name)).toBeInTheDocument();
     expect(screen.getByText(mockUser.email)).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: /Edit Profile/i })
+      screen.getByRole('button', { name: /Edit your profile/i })
     ).toBeInTheDocument();
   });
 
@@ -71,21 +71,5 @@ describe('ProfilePage', () => {
     render(<ProfilePage />);
 
     expect(screen.getByTestId('AccountCircleIcon')).toBeInTheDocument();
-  });
-
-  it('should call alert when the Edit Profile button is clicked', () => {
-    (useAuth as ReturnType<typeof vi.fn>).mockReturnValue({
-      user: mockUser,
-      loading: false,
-    });
-
-    const mockAlert = vi.spyOn(window, 'alert').mockImplementation(() => {});
-
-    render(<ProfilePage />);
-
-    fireEvent.click(screen.getByRole('button', { name: /Edit Profile/i }));
-
-    expect(mockAlert).toHaveBeenCalledWith('Edit Profile (to be implemented');
-    mockAlert.mockRestore();
   });
 });

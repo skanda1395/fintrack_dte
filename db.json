@@ -44,6 +44,27 @@
       "categoryId": "05ec",
       "id": "96b6",
       "userId": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6"
+    },
+    {
+      "id": "fe20",
+      "description": "Coffee",
+      "amount": 5,
+      "date": "2023-01-03",
+      "userId": "user123"
+    },
+    {
+      "id": "57ba",
+      "description": "Coffee",
+      "amount": 5,
+      "date": "2023-01-03",
+      "userId": "user123"
+    },
+    {
+      "id": "4b9e",
+      "description": "Coffee",
+      "amount": 5,
+      "date": "2023-01-03",
+      "userId": "user123"
     }
   ],
   "budgets": [

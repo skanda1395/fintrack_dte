@@ -11,7 +11,12 @@ const ThemeToggleButton: React.FC = () => {
     <Tooltip
       title={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
     >
-      <IconButton sx={{ ml: 1 }} onClick={toggleThemeMode} color="inherit" aria-label={`switch to ${mode === 'dark' ? 'light' : 'dark'} mode`}>
+      <IconButton
+        sx={{ ml: 1 }}
+        onClick={toggleThemeMode}
+        color="inherit"
+        aria-label={`switch to ${mode === 'dark' ? 'light' : 'dark'} mode`}
+      >
         {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
       </IconButton>
     </Tooltip>

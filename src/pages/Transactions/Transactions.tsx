@@ -273,11 +273,37 @@ const TransactionsPage: React.FC = () => {
           </caption>
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontWeight: 'bold', minWidth: '120px' }} scope="col">Date</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }} scope="col">Category</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', minWidth: '200px' }} scope="col">Description</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', textAlign: 'right' }} scope="col">Amount</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', textAlign: 'center', minWidth: '120px' }} scope="col">Actions</TableCell>
+              <TableCell
+                sx={{ fontWeight: 'bold', minWidth: '120px' }}
+                scope="col"
+              >
+                Date
+              </TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }} scope="col">
+                Category
+              </TableCell>
+              <TableCell
+                sx={{ fontWeight: 'bold', minWidth: '200px' }}
+                scope="col"
+              >
+                Description
+              </TableCell>
+              <TableCell
+                sx={{ fontWeight: 'bold', textAlign: 'right' }}
+                scope="col"
+              >
+                Amount
+              </TableCell>
+              <TableCell
+                sx={{
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                  minWidth: '120px',
+                }}
+                scope="col"
+              >
+                Actions
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -289,12 +315,14 @@ const TransactionsPage: React.FC = () => {
                     {findCategoryName(transaction.categoryId)}
                   </TableCell>
                   <Tooltip title={transaction.description} arrow>
-                    <TableCell sx={{
-                      maxWidth: '200px',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap'
-                    }}>
+                    <TableCell
+                      sx={{
+                        maxWidth: '200px',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {transaction.description}
                     </TableCell>
                   </Tooltip>

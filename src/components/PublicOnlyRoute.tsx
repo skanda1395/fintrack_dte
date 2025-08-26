@@ -19,7 +19,9 @@ const PublicOnlyRoute: React.FC = () => {
         }}
       >
         <CircularProgress />
-        <Typography sx={{ display: 'none' }}>Checking authentication status...</Typography>
+        <Typography sx={{ display: 'none' }}>
+          Checking authentication status...
+        </Typography>
       </Box>
     );
   }

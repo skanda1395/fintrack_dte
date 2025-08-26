@@ -1,14 +1,29 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { Budget } from '@/interfaces/interfaces';
-import { fetchBudgets, addBudget, updateBudget } from './budgetsService';
+import {
+  fetchBudgets,
+  addBudget,
+  updateBudget,
+} from '@/services/budgetsService';
+import { apiService, API_ENDPOINTS } from '@/config/api';
 
-vi.mock('@/config/api', () => ({
-  API_ENDPOINTS: {
-    BUDGETS: 'http://localhost:3000/budgets',
-  },
-}));
+vi.mock('@/config/api');
 
-describe('Budgets API Functions', () => {
+interface Budget {
+  id: string;
+  categoryId: string;
+  limit: number;
+  spent: number;
+  userId: string;
+}
+
+const mockApiService = apiService as unknown as {
+  get: ReturnType<typeof vi.fn>;
+  post: ReturnType<typeof vi.fn>;
+  put: ReturnType<typeof vi.fn>;
+  delete: ReturnType<typeof vi.fn>;
+};
+
+describe('budgetsService', () => {
   const mockUserId = 'user123';
   const mockBudgets: Budget[] = [
     { id: '1', categoryId: 'cat1', limit: 300, spent: 50, userId: mockUserId },
@@ -28,72 +43,61 @@ describe('Budgets API Functions', () => {
     spent: 60,
   };
 
-  let fetchSpy: ReturnType<typeof vi.spyOn>;
-
   beforeEach(() => {
-    vi.restoreAllMocks();
-    fetchSpy = vi.spyOn(global, 'fetch');
+    vi.resetAllMocks();
   });
 
   describe('fetchBudgets', () => {
     it('should successfully fetch budgets for a given user ID', async () => {
-      fetchSpy.mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve(mockBudgets),
-      } as Response);
+      mockApiService.get.mockResolvedValueOnce(mockBudgets);
 
       const budgets = await fetchBudgets(mockUserId);
       expect(budgets).toEqual(mockBudgets);
 
-      expect(fetchSpy).toHaveBeenCalledWith(
-        `http://localhost:3000/budgets?userId=${mockUserId}`
-      );
+      expect(mockApiService.get).toHaveBeenCalledWith(API_ENDPOINTS.BUDGETS, {
+        userId: mockUserId,
+      });
     });
 
-    it('should throw an error if the fetch response is not ok', async () => {
-      fetchSpy.mockResolvedValueOnce({
-        ok: false,
-        status: 404,
-        statusText: 'Not Found',
-      } as Response);
+    it('should return an empty array if no budgets are found', async () => {
+      mockApiService.get.mockResolvedValueOnce(null);
 
-      await expect(fetchBudgets(mockUserId)).rejects.toThrow(
-        'Failed to fetch budgets'
-      );
+      const budgets = await fetchBudgets(mockUserId);
+      expect(budgets).toEqual([]);
+
+      expect(mockApiService.get).toHaveBeenCalledWith(API_ENDPOINTS.BUDGETS, {
+        userId: mockUserId,
+      });
     });
 
-    it('should throw an error if user ID is not provided', async () => {
+    it('should throw an error if the user ID is missing', async () => {
       await expect(fetchBudgets('')).rejects.toThrow(
-        'User ID is required to fetch budgets.'
-      );
-      await expect(fetchBudgets(null as any)).rejects.toThrow(
         'User ID is required to fetch budgets.'
       );
     });
   });
 
   describe('addBudget', () => {
+    const newBudgetResponse = {
+      ...newMockBudget,
+      id: '3',
+      userId: mockUserId,
+    };
+
     it('should successfully add a new budget', async () => {
-      const addedBudget = { id: '3', ...newMockBudget, userId: mockUserId };
-      fetchSpy.mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve(addedBudget),
-      } as Response);
+      mockApiService.post.mockResolvedValueOnce(newBudgetResponse);
 
       const result = await addBudget(newMockBudget, mockUserId);
-      expect(result).toEqual(addedBudget);
+      expect(result).toEqual(newBudgetResponse);
 
-      expect(fetchSpy).toHaveBeenCalledWith('http://localhost:3000/budgets', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...newMockBudget, userId: mockUserId }),
+      expect(mockApiService.post).toHaveBeenCalledWith(API_ENDPOINTS.BUDGETS, {
+        ...newMockBudget,
+        userId: mockUserId,
       });
     });
 
-    it('should throw an error if the add budget response is not ok', async () => {
-      fetchSpy.mockResolvedValueOnce({
-        ok: false,
-      } as Response);
+    it('should throw an error if the add operation fails', async () => {
+      mockApiService.post.mockResolvedValueOnce(null);
 
       await expect(addBudget(newMockBudget, mockUserId)).rejects.toThrow(
         'Failed to add budget'
@@ -108,30 +112,23 @@ describe('Budgets API Functions', () => {
   });
 
   describe('updateBudget', () => {
+    const finalUpdatedBudget = { ...updatedMockBudget, userId: mockUserId };
+
     it('should successfully update an existing budget', async () => {
-      const finalUpdatedBudget = { ...updatedMockBudget, userId: mockUserId };
-      fetchSpy.mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve(finalUpdatedBudget),
-      } as Response);
+      mockApiService.put.mockResolvedValueOnce(finalUpdatedBudget);
 
       const result = await updateBudget(updatedMockBudget, mockUserId);
       expect(result).toEqual(finalUpdatedBudget);
 
-      expect(fetchSpy).toHaveBeenCalledWith(
-        `http://localhost:3000/budgets/${updatedMockBudget.id}`,
-        {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...updatedMockBudget, userId: mockUserId }),
-        }
+      expect(mockApiService.put).toHaveBeenCalledWith(
+        API_ENDPOINTS.BUDGETS,
+        updatedMockBudget.id,
+        { ...updatedMockBudget, userId: mockUserId }
       );
     });
 
-    it('should throw an error if the update budget response is not ok', async () => {
-      fetchSpy.mockResolvedValueOnce({
-        ok: false,
-      } as Response);
+    it('should throw an error if the update operation fails', async () => {
+      mockApiService.put.mockResolvedValueOnce(null);
 
       await expect(updateBudget(updatedMockBudget, mockUserId)).rejects.toThrow(
         'Failed to update budget'

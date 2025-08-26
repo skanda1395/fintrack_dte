@@ -238,8 +238,8 @@ const DashboardPage: React.FC = () => {
               ${totalExpenses.toFixed(2)}
             </Typography>
           </Box>
-          <ResponsiveContainer 
-            width="100%" 
+          <ResponsiveContainer
+            width="100%"
             height={300}
             aria-label="Bar chart showing spending by category for the current month."
           >
@@ -274,10 +274,18 @@ const DashboardPage: React.FC = () => {
             </caption>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ fontWeight: 'bold' }} scope="col">Date</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }} scope="col">Category</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }} scope="col">Description</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }} scope="col">Amount</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} scope="col">
+                  Date
+                </TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} scope="col">
+                  Category
+                </TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} scope="col">
+                  Description
+                </TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} scope="col">
+                  Amount
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
