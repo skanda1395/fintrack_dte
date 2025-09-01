@@ -2,8 +2,8 @@
   "transactions": [
     {
       "date": "2025-08-08",
-      "description": "HashedIn Salary",
-      "amount": 2000,
+      "description": "Salary",
+      "amount": 2500,
       "type": "income",
       "categoryId": "796e",
       "id": "1482",
@@ -28,12 +28,12 @@
       "userId": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6"
     },
     {
-      "id": "5ee7",
       "date": "2025-08-21",
       "description": "Coolie",
-      "amount": 100,
+      "amount": 101,
       "type": "expense",
       "categoryId": "c394",
+      "id": "5ee7",
       "userId": "e883de13-37c7-4556-a1ff-bbf4dbd32c55"
     },
     {
@@ -65,6 +65,24 @@
       "amount": 5,
       "date": "2023-01-03",
       "userId": "user123"
+    },
+    {
+      "id": "a116",
+      "date": "2025-09-01",
+      "description": "asf",
+      "amount": 11,
+      "type": "expense",
+      "categoryId": "",
+      "userId": "e883de13-37c7-4556-a1ff-bbf4dbd32c55"
+    },
+    {
+      "id": "c893",
+      "date": "2025-09-01",
+      "description": "SRV",
+      "amount": 233,
+      "type": "expense",
+      "categoryId": "ee05",
+      "userId": "6b1b4437-0913-4e38-91c5-a4c1c11dd0f6"
     }
   ],
   "budgets": [
